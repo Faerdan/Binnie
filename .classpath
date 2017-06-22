@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="build/sources/java"/>
+	<classpathentry kind="src" path="build/tmp/makeStart/extracted"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="lib" path="build/libs/binnie-mods-1.7.10-2.0.15.jar"/>
+	<classpathentry kind="lib" path="build/tmp/reobf/toObf1192533993769740768.jar"/>
+	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="libs/buildcraft-7.1.13-dev.jar"/>
+	<classpathentry kind="lib" path="libs/forestry_1.7.10-4.2.16.64-dev.jar"/>
+	<classpathentry kind="lib" path="libs/industrialcraft-2-2.2.827-experimental-api.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="build/classes/java/main"/>
+</classpath>

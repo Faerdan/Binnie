@@ -246,7 +246,13 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.COPPER.get(1), 0.06f);
+				.addSpecialty(EnumHoneyComb.COPPER.get(1), 0.06f)
+				.setRequiredBiomeNames(new String[] { "Extreme Hills.*" });
+		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWER_PROVIDER, AlleleHelper.getAllele(ExtraBeesFlowers.COPPER.getUID()));
 		}
 
 		@Override
@@ -260,7 +266,8 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.TIN.get(1), 0.06f);
+				.addSpecialty(EnumHoneyComb.TIN.get(1), 0.06f)
+				.setRequiredBiomeNames(new String[] { ".*Forest.*" });
 		}
 
 		@Override
@@ -268,13 +275,24 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 			registerMutation(BeeDefinition.MARSHY, MINERAL, 5);
 			registerMutation(BeeDefinition.TROPICAL, MINERAL, 5);
 		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWER_PROVIDER, AlleleHelper.getAllele(ExtraBeesFlowers.TIN.getUID()));
+		}
 	},
 	IRON(ExtraBeeBranchDefinition.METALLIC, "ferrous", false, new Color(0xa87058), new Color(0x999999)) {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.IRON.get(1), 0.05f);
+				.addSpecialty(EnumHoneyComb.IRON.get(1), 0.05f)
+				.setRequiredBiomeNames(new String[] { "Ice Mountains.*", ".*TaigaHills.*" });
+		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWER_PROVIDER, AlleleHelper.getAllele(ExtraBeesFlowers.IRON.getUID()));
 		}
 
 		@Override
@@ -304,7 +322,8 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.ZINC.get(1), 0.05f);
+				.addSpecialty(EnumHoneyComb.ZINC.get(1), 0.05f)
+				.setRequiredBiomeNames(new String[] { "asteroids" });
 		}
 
 		@Override
@@ -318,7 +337,8 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.TITANIUM.get(1), 0.02f);
+				.addSpecialty(EnumHoneyComb.TITANIUM.get(1), 0.02f)
+				.setRequiredBiomeNames(new String[] { ".*asteroids.*" });
 		}
 
 		@Override
@@ -331,7 +351,8 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.TUNGSTEN.get(1), 0.01f);
+				.addSpecialty(EnumHoneyComb.TUNGSTEN.get(1), 0.01f)
+				.setRequiredBiomeNames(new String[] { ".*asteroids.*" });
 		}
 
 		@Override
@@ -344,7 +365,8 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.NICKEL.get(1), 0.05f);
+				.addSpecialty(EnumHoneyComb.NICKEL.get(1), 0.05f)
+				.setRequiredBiomeNames(new String[] { ".*asteroids.*" });
 		}
 
 		@Override
@@ -360,7 +382,13 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.GOLD.get(1), 0.02f);
+				.addSpecialty(EnumHoneyComb.GOLD.get(1), 0.02f)
+				.setRequiredBiomeNames(new String[] { ".*moon.*" });
+		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWER_PROVIDER, AlleleHelper.getAllele(ExtraBeesFlowers.GOLD.getUID()));
 		}
 
 		@Override
@@ -376,7 +404,8 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.SILVER.get(1), 0.02f);
+				.addSpecialty(EnumHoneyComb.SILVER.get(1), 0.02f)
+				.setRequiredBiomeNames(new String[] { ".*mars.*" });
 		}
 
 		@Override
@@ -393,7 +422,8 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.PLATINUM.get(1), 0.01f);
+				.addSpecialty(EnumHoneyComb.PLATINUM.get(1), 0.01f)
+				.setRequiredBiomeNames(new String[] { "mars", "marsFlat" });
 		}
 
 		@Override
@@ -408,7 +438,13 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.LAPIS.get(1), 0.05f);
+				.addSpecialty(EnumHoneyComb.LAPIS.get(1), 0.05f)
+				.setRequiredBiomeNames(new String[] { ".*Ocean.*" });
+		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWER_PROVIDER, AlleleHelper.getAllele(ExtraBeesFlowers.LAPIS.getUID()));
 		}
 
 		@Override
@@ -428,7 +464,13 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.EMERALD.get(1), 0.04f);
+				.addSpecialty(EnumHoneyComb.EMERALD.get(1), 0.04f)
+				.setRequiredBiomeNames(new String[] { ".*Jungle.*" });
+		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWER_PROVIDER, AlleleHelper.getAllele(ExtraBeesFlowers.EMERALD.getUID()));
 		}
 
 		@Override
@@ -468,7 +510,13 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.DIAMOND.get(1), 0.01f);
+				.addSpecialty(EnumHoneyComb.DIAMOND.get(1), 0.01f)
+				.setRequiredBiomeNames(new String[] { ".*mars.*" });
+		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWER_PROVIDER, AlleleHelper.getAllele(ExtraBeesFlowers.DIAMOND.getUID()));
 		}
 
 		@Override
@@ -525,7 +573,8 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.BARREN.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.YELLORIUM.get(1), 0.02f);
+				.addSpecialty(EnumHoneyComb.YELLORIUM.get(1), 0.02f)
+				.setRequiredBiomeNames(new String[] { ".*asteroids.*" });
 		}
 
 		@Override
@@ -540,7 +589,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 			registerMutation(BeeDefinition.FRUGAL, NUCLEAR, 5);
 		}
 	},
-	CYANITE(ExtraBeeBranchDefinition.NUCLEAR, "cyanita", true, new Color(0x0086ed), new Color(0x999999)) {
+	/*CYANITE(ExtraBeeBranchDefinition.NUCLEAR, "cyanita", true, new Color(0x0086ed), new Color(0x999999)) {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
@@ -579,7 +628,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void registerMutations() {
 			registerMutation(CYANITE, YELLORIUM, 5);
 		}
-	},
+	},*/
 
 	/* HISTORIC BRANCH */
 	ANCIENT(ExtraBeeBranchDefinition.HISTORIC, "antiquus", true, new Color(0xf2db8f), new Color(0xffdc16)) {
@@ -651,7 +700,13 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
 				.addProduct(EnumHoneyComb.OLD.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.COAL.get(1), 0.08f);
+				.addSpecialty(EnumHoneyComb.COAL.get(1), 0.08f)
+				.setRequiredBiomeNames(new String[] { ".*Swampland.*" });
+		}
+
+		@Override
+		protected void setAlleles(IAllele[] template) {
+			AlleleHelper.instance.set(template, EnumBeeChromosome.FLOWER_PROVIDER, AlleleHelper.getAllele(ExtraBeesFlowers.COAL.getUID()));
 		}
 
 		@Override
@@ -673,7 +728,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 			registerMutation(BeeDefinition.MIRY, PRIMEVAL, 8);
 		}
 	},
-	OIL(ExtraBeeBranchDefinition.FOSSILIZED, "lubricus", true, new Color(0x574770), new Color(0xffdc16)) {
+	/*OIL(ExtraBeeBranchDefinition.FOSSILIZED, "lubricus", true, new Color(0x574770), new Color(0xffdc16)) {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
@@ -686,7 +741,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 			registerMutation(OCEAN, PRIMEVAL, 8);
 			registerMutation(BeeDefinition.FRUGAL, PRIMEVAL, 8);
 		}
-	},
+	},*/
 	//	PEAT,
 
 	/* REFINED BRANCH */
@@ -698,10 +753,10 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 
 		@Override
 		protected void registerMutations() {
-			registerMutation(BeeDefinition.INDUSTRIOUS, OIL, 8);
+			registerMutation(BeeDefinition.INDUSTRIOUS, PRIMEVAL, 8);
 		}
 	},
-	FUEL(ExtraBeeBranchDefinition.REFINED, "refina", true, new Color(0xffc003), new Color(0xffdc16)) {
+	/*FUEL(ExtraBeeBranchDefinition.REFINED, "refina", true, new Color(0xffc003), new Color(0xffdc16)) {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
@@ -714,7 +769,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		protected void registerMutations() {
 			registerMutation(DISTILLED, OIL, 8);
 		}
-	},
+	},*/
 	CREOSOTE(ExtraBeeBranchDefinition.REFINED, "creosota", true, new Color(0x979e13), new Color(0xffdc16)) {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
@@ -832,7 +887,8 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 	THRIVING(BeeBranchDefinition.AGRARIAN, "thriva", true, new Color(0x34e37d), new Color(0xffdc16)) {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
-			beeSpecies.addProduct(ItemHoneyComb.VanillaComb.HONEY.get(), 0.35f);
+			beeSpecies.addProduct(ItemHoneyComb.VanillaComb.HONEY.get(), 0.35f)
+			.addSpecialty(EnumHoneyComb.SEED.get(1), 0.10f);
 		}
 
 		@Override
@@ -1240,6 +1296,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 			beeSpecies
 				.addProduct(ItemHoneyComb.VanillaComb.SILKY.get(), 0.25f)
 				.addSpecialty(EnumHoneyComb.ACIDIC.get(1), 0.03f)
+				.setRequiredBiomeNames(new String[] { ".*space.*" })
 				.setHumidity(EnumHumidity.DAMP)
 				.setTemperature(EnumTemperature.WARM);
 		}
@@ -1255,6 +1312,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 			beeSpecies
 				.addProduct(ItemHoneyComb.VanillaComb.SILKY.get(), 0.20f)
 				.addSpecialty(EnumHoneyComb.ACIDIC.get(1), 0.16f)
+				.setRequiredBiomeNames(new String[] { ".*space.*" })
 				.setHumidity(EnumHumidity.DAMP)
 				.setTemperature(EnumTemperature.WARM)
 				.setHasEffect();
@@ -1270,7 +1328,10 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 	EXCITED(ExtraBeeBranchDefinition.ENERGETIC, "excita", true, new Color(0xff4545), new Color(0xffdc16)) {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
-			beeSpecies.addProduct(EnumHoneyComb.REDSTONE.get(1), 0.10f);
+			beeSpecies
+			.addProduct(ItemHoneyComb.VanillaComb.SILKY.get(), 0.20f)
+			.addSpecialty(EnumHoneyComb.REDSTONE.get(1), 0.10f)
+			.setRequiredBiomeNames(new String[] { ".*space.*" });
 		}
 
 		@Override
@@ -1281,7 +1342,10 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 	ENERGETIC(ExtraBeeBranchDefinition.ENERGETIC, "energia", false, new Color(0xe835c7), new Color(0xffdc16)) {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
-			beeSpecies.addProduct(EnumHoneyComb.REDSTONE.get(1), 0.12f);
+			beeSpecies
+			.addProduct(ItemHoneyComb.VanillaComb.SILKY.get(), 0.20f)
+			.addSpecialty(EnumHoneyComb.REDSTONE.get(1), 0.12f)
+			.setRequiredBiomeNames(new String[] { ".*space.*" });
 		}
 
 		@Override
@@ -1293,9 +1357,10 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
 		@Override
 		protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
 			beeSpecies
-				.addProduct(EnumHoneyComb.REDSTONE.get(1), 0.20f)
-				.addSpecialty(EnumHoneyComb.IC2ENERGY.get(1), 0.08f)
-				.setHasEffect();
+			.addProduct(ItemHoneyComb.VanillaComb.SILKY.get(), 0.20f)
+			.addSpecialty(EnumHoneyComb.REDSTONE.get(1), 0.16f)
+			.setRequiredBiomeNames(new String[] { ".*space.*" })
+			.setHasEffect();
 		}
 
 		@Override

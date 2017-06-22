@@ -22,6 +22,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 
+import net.minecraftforge.oredict.OreDictionary;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -40,7 +42,15 @@ public enum ExtraBeesFlowers implements IFlowerProvider, IAlleleFlowers, IChromo
 	LEAVES,
 	SAPLING,
 	FRUIT,
-	MYSTICAL;
+	MYSTICAL,
+	COAL,
+	IRON,
+	COPPER,
+	GOLD,
+	DIAMOND,
+	EMERALD,
+	LAPIS,
+	TIN;
 
 	protected boolean dominant;
 
@@ -114,6 +124,31 @@ public enum ExtraBeesFlowers implements IFlowerProvider, IAlleleFlowers, IChromo
 
 			case WOOD:
 				return new ItemStack[]{new ItemStack(Blocks.log)};
+
+			case COAL:
+				return new ItemStack[]{new ItemStack(Blocks.coal_block)};
+
+			case IRON:
+				return new ItemStack[]{new ItemStack(Blocks.iron_block)};
+
+			case COPPER:
+				return new ItemStack[]{OreDictionary.getOres("blockCopper").get(0)};
+
+			case GOLD:
+				return new ItemStack[]{new ItemStack(Blocks.gold_block)};
+
+			case DIAMOND:
+				return new ItemStack[]{new ItemStack(Blocks.diamond_block)};
+
+			case EMERALD:
+				return new ItemStack[]{new ItemStack(Blocks.emerald_block)};
+
+			case LAPIS:
+				return new ItemStack[]{new ItemStack(Blocks.lapis_block)};
+
+			case TIN:
+				return new ItemStack[]{OreDictionary.getOres("blockTin").get(0)};
+				
 		}
 		return new ItemStack[0];
 	}
@@ -163,6 +198,30 @@ public enum ExtraBeesFlowers implements IFlowerProvider, IAlleleFlowers, IChromo
 
 			case MYSTICAL:
 				return block == Mods.botania.block("flower");
+
+			case COAL:
+				return block == Blocks.coal_block;
+
+			case IRON:
+				return block == Blocks.iron_block;
+
+			case COPPER:
+				return block == Block.getBlockFromItem(OreDictionary.getOres("blockCopper").get(0).getItem());
+
+			case GOLD:
+				return block == Blocks.gold_block;
+
+			case DIAMOND:
+				return block == Blocks.diamond_block;
+
+			case EMERALD:
+				return block == Blocks.emerald_block;
+
+			case LAPIS:
+				return block == Blocks.lapis_block;
+
+			case TIN:
+				return block == Block.getBlockFromItem(OreDictionary.getOres("blockTin").get(0).getItem());
 		}
 		return false;
 	}
