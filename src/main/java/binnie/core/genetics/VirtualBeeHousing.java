@@ -90,6 +90,11 @@ public class VirtualBeeHousing extends VirtualHousing implements IBeeHousing, IB
 	}
 
 	@Override
+	public boolean doesBlockHaveOxygen() {
+		return false;
+	}
+
+	@Override
 	public boolean isSunlightSimulated() {
 		return false;
 	}
