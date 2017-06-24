@@ -42,6 +42,7 @@ public class ModuleItems implements IInitializable {
 	@Override
 	public void init() {
 		OreDictionary.registerOre("pulpWood", ExtraTreeItems.Sawdust.get(1));
+		OreDictionary.registerOre("gearProven", ExtraTreeItems.ProvenGear.get(1));
 		Food.registerOreDictionary();
 		OreDictionary.registerOre("cropApple", Items.apple);
 		OreDictionary.registerOre("seedWheat", Items.wheat_seeds);

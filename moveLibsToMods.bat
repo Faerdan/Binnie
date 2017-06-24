@@ -1,0 +1,1 @@
+robocopy .\build\libs C:\Users\Mark\AppData\Roaming\.minecraft\mods\1.7.10 binnie-mods-1.7.10-2.0.15.jar /MOV

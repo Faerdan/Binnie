@@ -58,6 +58,12 @@ public enum ExtraBeesFlowers implements IFlowerProvider, IAlleleFlowers, IChromo
 		dominant = true;
 	}
 
+	private ItemStack itemStackCopperCache;
+	private ItemStack itemStackTinCache;
+
+	private Block blockCopperCache;
+	private Block blockTinCache;
+
 	public static void doInit() {
 		for (ExtraBeesFlowers effect : values()) {
 			effect.register();
@@ -132,7 +138,12 @@ public enum ExtraBeesFlowers implements IFlowerProvider, IAlleleFlowers, IChromo
 				return new ItemStack[]{new ItemStack(Blocks.iron_block)};
 
 			case COPPER:
-				return new ItemStack[]{OreDictionary.getOres("blockCopper").get(0)};
+				if (itemStackCopperCache == null)
+				{
+					ArrayList<ItemStack> ores = OreDictionary.getOres("blockCopper");
+					itemStackCopperCache = ores.size() > 0 ? ores.get(0) : null;
+				}
+				return new ItemStack[]{itemStackCopperCache};
 
 			case GOLD:
 				return new ItemStack[]{new ItemStack(Blocks.gold_block)};
@@ -147,7 +158,12 @@ public enum ExtraBeesFlowers implements IFlowerProvider, IAlleleFlowers, IChromo
 				return new ItemStack[]{new ItemStack(Blocks.lapis_block)};
 
 			case TIN:
-				return new ItemStack[]{OreDictionary.getOres("blockTin").get(0)};
+				if (itemStackTinCache == null)
+				{
+					ArrayList<ItemStack> ores = OreDictionary.getOres("blockTin");
+					itemStackTinCache = ores.size() > 0 ? ores.get(0) : null;
+				}
+				return new ItemStack[]{itemStackTinCache};
 				
 		}
 		return new ItemStack[0];
@@ -206,7 +222,12 @@ public enum ExtraBeesFlowers implements IFlowerProvider, IAlleleFlowers, IChromo
 				return block == Blocks.iron_block;
 
 			case COPPER:
-				return block == Block.getBlockFromItem(OreDictionary.getOres("blockCopper").get(0).getItem());
+				if (blockCopperCache == null)
+				{
+					ArrayList<ItemStack> ores = OreDictionary.getOres("blockCopper");
+					blockCopperCache = ores.size() > 0 ? Block.getBlockFromItem(ores.get(0).getItem()) : null;
+				}
+				return block == blockCopperCache;
 
 			case GOLD:
 				return block == Blocks.gold_block;
@@ -221,7 +242,12 @@ public enum ExtraBeesFlowers implements IFlowerProvider, IAlleleFlowers, IChromo
 				return block == Blocks.lapis_block;
 
 			case TIN:
-				return block == Block.getBlockFromItem(OreDictionary.getOres("blockTin").get(0).getItem());
+				if (blockTinCache == null)
+				{
+					ArrayList<ItemStack> ores = OreDictionary.getOres("blockTin");
+					blockTinCache = ores.size() > 0 ? Block.getBlockFromItem(ores.get(0).getItem()) : null;
+				}
+				return block == blockTinCache;
 		}
 		return false;
 	}
