@@ -63,7 +63,7 @@ public class PolymeriserPackage extends PackageGeneticBase implements IMachineIn
 		tank.getTankSlot(Polymeriser.TANK_DNA).setValidator(new DnaValidator());
 
 		new ComponentChargedSlots(machine).addCharge(Polymeriser.SLOT_GOLD);
-		new ComponentPowerReceptor(machine, Polymeriser.POWER_CAPACITY);
+		new ComponentPowerReceptor(machine, this.getUID(), 1, 8192, 196608);
 		new PolymeriserComponentLogic(machine);
 		new PolymeriserComponentFX(machine);
 	}

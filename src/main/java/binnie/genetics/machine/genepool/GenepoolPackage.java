@@ -53,7 +53,7 @@ public class GenepoolPackage extends PackageGeneticBase implements IMachineInfor
 
 		ComponentInventoryTransfer transfer = new ComponentInventoryTransfer(machine);
 		transfer.addRestock(Genepool.SLOT_RESERVE, Genepool.SLOT_BEE, 1);
-		new ComponentPowerReceptor(machine, Genepool.POWER_CAPACITY);
+		new ComponentPowerReceptor(machine, this.getUID(), 256, 1, 65536);
 		new GenepoolComponentLogic(machine);
 		ComponentChargedSlots chargedSlots = new ComponentChargedSlots(machine);
 		chargedSlots.addCharge(Genepool.SLOT_ENZYME);

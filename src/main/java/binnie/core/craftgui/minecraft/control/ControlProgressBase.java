@@ -91,9 +91,9 @@ public class ControlProgressBase extends Control {
 		if (process.getProcessTime() > 0) {
 			tooltip.add(I18N.localise("binniecore.gui.database.time.left", convertTime((int) ((1.0f - progress) * process.getProcessTime()))));
 			tooltip.add(I18N.localise("binniecore.gui.database.time.total", convertTime(process.getProcessTime())));
-			tooltip.add(I18N.localise("binniecore.gui.database.energyCost.0", process.getProcessEnergy() * 10));
+			tooltip.add(I18N.localise("binniecore.gui.database.energyCost.0", 33));
 		} else {
-			tooltip.add(I18N.localise("binniecore.gui.database.energyCost.1", process.getEnergyPerTick() * 10.0f));
+			tooltip.add(I18N.localise("binniecore.gui.database.energyCost.1", 66));
 		}
 	}
 }

@@ -1,11 +1,10 @@
 package binnie.core.machines;
 
+import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
 import binnie.core.BinnieCore;
 import binnie.core.machines.inventory.IChargedSlots;
-import binnie.core.machines.power.IPoweredMachine;
 import binnie.core.machines.power.IProcess;
 import binnie.core.machines.power.ITankMachine;
-import binnie.core.machines.power.PowerSystem;
 import binnie.core.util.ItemStackSet;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -33,8 +32,8 @@ public class MachineUtil {
 		return machine.getInterface(ITankMachine.class);
 	}
 
-	public IPoweredMachine getPoweredMachine() {
-		return machine.getInterface(IPoweredMachine.class);
+	public IShaftPowerReceiver getShaftPowerReceiver() {
+		return machine.getInterface(IShaftPowerReceiver.class);
 	}
 
 	public boolean isSlotEmpty(int slot) {
@@ -133,14 +132,6 @@ public class MachineUtil {
 
 		requiredStacks.removeAll(inventoryStacks);
 		return requiredStacks.isEmpty();
-	}
-
-	public void useEnergyMJ(float powerUsage) {
-		getPoweredMachine().getInterface().useEnergy(PowerSystem.MJ, powerUsage, true);
-	}
-
-	public boolean hasEnergyMJ(float powerUsage) {
-		return getPoweredMachine().getInterface().useEnergy(PowerSystem.MJ, powerUsage, false) >= powerUsage;
 	}
 
 	public float getSlotCharge(int slot) {

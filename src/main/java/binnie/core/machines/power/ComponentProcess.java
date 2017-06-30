@@ -3,17 +3,12 @@ package binnie.core.machines.power;
 import binnie.core.machines.IMachine;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ComponentProcess extends ComponentProcessIndefinate implements IProcessTimed {
+public abstract class ComponentProcess extends ComponentProcessIndefinite implements IProcessTimed {
 	private float progressAmount;
 
 	public ComponentProcess(IMachine machine) {
-		super(machine, 0.0f);
+		super(machine);
 		progressAmount = 0.0f;
-	}
-
-	@Override
-	public float getEnergyPerTick() {
-		return getProcessEnergy() / getProcessLength();
 	}
 
 	@Override
@@ -82,7 +77,4 @@ public abstract class ComponentProcess extends ComponentProcessIndefinate implem
 
 	@Override
 	public abstract int getProcessLength();
-
-	@Override
-	public abstract int getProcessEnergy();
 }

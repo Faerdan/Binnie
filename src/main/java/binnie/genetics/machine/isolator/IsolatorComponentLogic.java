@@ -22,7 +22,7 @@ public class IsolatorComponentLogic extends ComponentProcessSetCost implements I
 	protected float ethanolPerProcess = 10.0f;
 
 	public IsolatorComponentLogic(Machine machine) {
-		super(machine, Isolator.RF_COST, Isolator.TIME_PERIOD);
+		super(machine, Isolator.TIME_PERIOD);
 	}
 
 	@Override

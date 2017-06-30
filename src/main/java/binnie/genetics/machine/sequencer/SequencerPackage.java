@@ -55,7 +55,7 @@ public class SequencerPackage extends PackageGeneticBase implements IMachineInfo
 		transfer.addRestock(Sequencer.SLOT_RESERVE, Sequencer.SLOT_TARGET_INDEX, 1);
 
 		new ComponentChargedSlots(machine).addCharge(Sequencer.SLOT_DYE_INDEX);
-		new ComponentPowerReceptor(machine, Sequencer.POWER_CAPACITY);
+		new ComponentPowerReceptor(machine, this.getUID(), 1, 8192, 262144);
 		new SequencerComponentFX(machine);
 
 		SequencerComponentLogic logic = new SequencerComponentLogic(machine);

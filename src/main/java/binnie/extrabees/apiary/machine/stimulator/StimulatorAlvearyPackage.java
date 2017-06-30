@@ -20,7 +20,7 @@ public class StimulatorAlvearyPackage extends AlvearyMachine.AlvearyPackage impl
 		ComponentInventorySlots inventory = new ComponentInventorySlots(machine);
 		inventory.addSlot(AlvearyStimulator.SLOT_CIRCUIT, "circuit");
 		inventory.getSlot(AlvearyStimulator.SLOT_CIRCUIT).setValidator(new CircuitSlotValidator());
-		new ComponentPowerReceptor(machine);
+		new ComponentPowerReceptor(machine, this.getUID(), 1, 1, 1);
 		new StimulatorModifierComponent(machine);
 	}
 }

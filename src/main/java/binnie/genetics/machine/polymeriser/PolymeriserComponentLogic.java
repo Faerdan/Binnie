@@ -15,7 +15,7 @@ public class PolymeriserComponentLogic extends ComponentProcessSetCost implement
 	private float bacteriaDrain = 0.0f;
 
 	public PolymeriserComponentLogic(Machine machine) {
-		super(machine, Polymeriser.RF_COST, Polymeriser.TIME_PERIOD);
+		super(machine, Polymeriser.TIME_PERIOD);
 	}
 
 	private float getCatalyst() {
@@ -25,11 +25,6 @@ public class PolymeriserComponentLogic extends ComponentProcessSetCost implement
 	@Override
 	public int getProcessLength() {
 		return (int) (super.getProcessLength() * getNumberOfGenes() * getCatalyst());
-	}
-
-	@Override
-	public int getProcessEnergy() {
-		return (int) (super.getProcessEnergy() * getNumberOfGenes() * getCatalyst());
 	}
 
 	private float getDNAPerProcess() {

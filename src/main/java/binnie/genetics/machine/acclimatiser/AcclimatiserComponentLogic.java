@@ -1,7 +1,7 @@
 package binnie.genetics.machine.acclimatiser;
 
 import binnie.core.machines.IMachine;
-import binnie.core.machines.power.ComponentProcessIndefinate;
+import binnie.core.machines.power.ComponentProcessIndefinite;
 import binnie.core.machines.power.ErrorState;
 import binnie.core.util.I18N;
 import net.minecraft.item.ItemStack;
@@ -9,9 +9,9 @@ import net.minecraft.item.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AcclimatiserComponentLogic extends ComponentProcessIndefinate {
+public class AcclimatiserComponentLogic extends ComponentProcessIndefinite {
 	public AcclimatiserComponentLogic(IMachine machine) {
-		super(machine, Acclimatiser.ENERGY_PER_TICK);
+		super(machine);
 	}
 
 	@Override

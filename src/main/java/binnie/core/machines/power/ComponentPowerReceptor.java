@@ -1,6 +1,6 @@
 package binnie.core.machines.power;
 
-import binnie.core.Mods;
+import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
 import binnie.core.machines.IMachine;
 import binnie.core.machines.MachineComponent;
 import binnie.core.machines.component.IBuildcraft;
@@ -8,177 +8,200 @@ import binnie.core.machines.component.IInteraction;
 import binnie.core.triggers.TriggerData;
 import binnie.core.triggers.TriggerPower;
 import cpw.mods.fml.common.Optional;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergyTile;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Optional.Interface(iface = "binnie.core.machines.component.IBuildcraft.TriggerProvider", modid = "BuildCraft|Silicon")
 public class ComponentPowerReceptor extends MachineComponent implements
-	IPoweredMachine,
-	IBuildcraft.TriggerProvider,
-	IInteraction.ChunkUnload,
-	IInteraction.Invalidation {
-	public float previousPower;
-	public LinkedList<Float> inputs;
+        IShaftPowerReceiver,
+        IBuildcraft.TriggerProvider,
+        IInteraction.ChunkUnload,
+        IInteraction.Invalidation {
 
-	private boolean registeredToIC2EnergyNet;
-	private PowerInterface container;
+    private String nameKey;
 
-	public ComponentPowerReceptor(IMachine machine) {
-		this(machine, 1000);
-	}
+    public ComponentPowerReceptor(IMachine machine, String nameKey, int minTorque, int minOmega, int minPower) {
+        super(machine);
 
-	public ComponentPowerReceptor(IMachine machine, int storage) {
-		super(machine);
-		registeredToIC2EnergyNet = false;
-		previousPower = 0.0f;
-		inputs = new LinkedList<>();
-		container = new PowerInterface(storage);
-		if (!registeredToIC2EnergyNet) {
-			addToEnergyNet();
-		}
-	}
+        this.nameKey = nameKey;
 
-	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
-		super.readFromNBT(nbttagcompound);
-		container.readFromNBT(nbttagcompound);
-		if (!registeredToIC2EnergyNet) {
-			addToEnergyNet();
-		}
-	}
+        setMinTorque(minTorque);
+        setMinOmega(minOmega);
+        setMinPower(minPower);
+    }
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
-		super.writeToNBT(nbttagcompound);
-		container.writeToNBT(nbttagcompound);
-	}
+    @Override
+    public void readFromNBT(NBTTagCompound nbttagcompound) {
+        super.readFromNBT(nbttagcompound);
+        setTorque(nbttagcompound.getInteger("torque"));
+        setOmega(nbttagcompound.getInteger("omega"));
+        setPower(nbttagcompound.getLong("power"));
 
-	@Override
-	public void onUpdate() {
-		if (!registeredToIC2EnergyNet && !getMachine().getTileEntity().isInvalid()) {
-			addToEnergyNet();
-		}
-	}
+    }
 
-	@Override
-	public PowerInfo getPowerInfo() {
-		return new PowerInfo(this, 0.0f);
-	}
+    @Override
+    public void writeToNBT(NBTTagCompound nbttagcompound) {
+        super.writeToNBT(nbttagcompound);
+        nbttagcompound.setInteger("torque", getTorque());
+        nbttagcompound.setInteger("omega", getOmega());
+        nbttagcompound.setLong("power", getPower());
+    }
 
-	@Optional.Method(modid = "BuildCraft|Silicon")
-	@Override
-	public void getTriggers(List<TriggerData> triggers) {
-		triggers.add(TriggerPower.powerNone(this));
-		triggers.add(TriggerPower.powerLow(this));
-		triggers.add(TriggerPower.powerMedium(this));
-		triggers.add(TriggerPower.powerHigh(this));
-		triggers.add(TriggerPower.powerFull(this));
-	}
+    @Override
+    public void onUpdate() {
 
-	@Override
-	@Optional.Method(modid = "IC2")
-	public double getDemandedEnergy() {
-		return container.getEnergySpace(PowerSystem.EU);
-	}
+    }
 
-	@Override
-	@Optional.Method(modid = "IC2")
-	public int getSinkTier() {
-		return 1;
-	}
+    @Optional.Method(modid = "BuildCraft|Silicon")
+    @Override
+    public void getTriggers(List<TriggerData> triggers) {
+        triggers.add(TriggerPower.powerNone(this));
+        triggers.add(TriggerPower.powerLow(this));
+        triggers.add(TriggerPower.powerMedium(this));
+        triggers.add(TriggerPower.powerHigh(this));
+        triggers.add(TriggerPower.powerFull(this));
+    }
 
-	@Override
-	@Optional.Method(modid = "IC2")
-	public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage) {
-		container.addEnergy(PowerSystem.EU, amount, true);
-		return 0.0;
-	}
+    @Override
+    public void onInvalidation() {
 
-	@Override
-	@Optional.Method(modid = "IC2")
-	public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
-		return acceptsPowerSystem(PowerSystem.EU);
-	}
+    }
 
-	@Override
-	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		return (int) container.addEnergy(PowerSystem.RF, maxReceive, !simulate);
-	}
+    @Override
+    public void onChunkUnload() {
 
-	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		return container.useEnergy(maxExtract, simulate);
-	}
+    }
 
-	@Override
-	public int getEnergyStored(ForgeDirection from) {
-		return (int) container.getEnergy(PowerSystem.RF);
-	}
+    /* Rotary Power */
+    private int rotaryMinTorque = 1;
+    private int rotaryMinOmega = 1;
+    private long rotaryMinPower = 1;
 
-	@Override
-	public int getMaxEnergyStored(ForgeDirection from) {
-		return (int) container.getCapacity(PowerSystem.RF);
-	}
+    private int rotaryOmega;
+    private int rotaryTorque;
+    private long rotaryPower;
+    private int rotaryIORenderAlpha;
 
-	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
-		return acceptsPowerSystem(PowerSystem.RF);
-	}
+    @Override
+    public void setOmega(int i) {
+        //BCLog.logger.info("Quarry setOmega: " + i);
+        rotaryOmega = i;
+    }
 
-	@Override
-	public PowerInterface getInterface() {
-		return container;
-	}
+    @Override
+    public void setTorque(int i) {
+        //BCLog.logger.info("Quarry setTorque: " + i);
+        rotaryTorque = i;
+    }
 
-	private boolean acceptsPowerSystem(PowerSystem system) {
-		return true;
-	}
+    @Override
+    public void setPower(long l) {
+        //BCLog.logger.info("Quarry setPower: " + l);
+        rotaryPower = l;
+    }
 
-	@Override
-	public void onInvalidation() {
-		removeFromEnergyNet();
-	}
+    @Override
+    public void noInputMachine() {
+        rotaryOmega = 0;
+        rotaryTorque = 0;
+        rotaryPower = 0;
+    }
 
-	@Override
-	public void onChunkUnload() {
-		removeFromEnergyNet();
-	}
+    @Override
+    public boolean canReadFrom(ForgeDirection forgeDirection) {
+        return true; // (forgeDirection == ForgeDirection.EAST || forgeDirection == ForgeDirection.WEST || forgeDirection == ForgeDirection.NORTH);
+    }
 
-	private void addToEnergyNet() {
-		if (getMachine().getWorld() == null) {
-			return;
-		}
-		if (Mods.ic2.active()) {
-			do_addToEnergyNet();
-		}
-	}
+    @Override
+    public boolean isReceiving() {
+        return true;
+    }
 
-	private void removeFromEnergyNet() {
-		if (getMachine().getWorld() == null) {
-			return;
-		}
-		if (Mods.ic2.active()) {
-			do_removeFromEnergyNet();
-		}
-	}
+    @Override
+    public int getMinTorque() {
+        return getMinTorque(getTorque());
+    }
 
-	@Optional.Method(modid = "IC2")
-	private void do_addToEnergyNet() {
-		MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent((IEnergyTile) getMachine().getTileEntity()));
-		registeredToIC2EnergyNet = true;
-	}
+    @Override
+    public int getMinTorque(int i) {
+        return rotaryMinTorque;
+    }
 
-	@Optional.Method(modid = "IC2")
-	private void do_removeFromEnergyNet() {
-		MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent((IEnergyTile) getMachine().getTileEntity()));
-		registeredToIC2EnergyNet = false;
-	}
+    @Override
+    public int getMinOmega() {
+        return getMinOmega(getOmega());
+    }
+
+    @Override
+    public int getMinOmega(int i) {
+        return rotaryMinOmega;
+    }
+
+    @Override
+    public long getMinPower() {
+        return getMinPower(getPower());
+    }
+
+    @Override
+    public long getMinPower(long l) {
+        return rotaryMinPower;
+    }
+
+    @Override
+    public int getOmega() {
+        return rotaryOmega;
+    }
+
+    @Override
+    public int getTorque() {
+        return rotaryTorque;
+    }
+
+    @Override
+    public long getPower() {
+        return rotaryPower;
+    }
+
+    @Override
+    public String getName() {
+        return nameKey;
+    }
+
+    @Override
+    public int getIORenderAlpha() {
+        return rotaryIORenderAlpha;
+    }
+
+    @Override
+    public void setIORenderAlpha(int i) {
+        rotaryIORenderAlpha = i;
+    }
+
+    @Override
+    public void setMinTorque(int i) {
+        if (i >= 1)
+        {
+            rotaryMinTorque = i;
+        }
+    }
+
+    @Override
+    public void setMinOmega(int i) {
+        if (i >= 1)
+        {
+            rotaryMinOmega = i;
+        }
+    }
+
+    @Override
+    public void setMinPower(long l) {
+        if (l >= 1)
+        {
+            rotaryMinPower = l;
+        }
+    }
+
+
 }

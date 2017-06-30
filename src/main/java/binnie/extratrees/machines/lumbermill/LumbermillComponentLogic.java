@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 
 public class LumbermillComponentLogic extends ComponentProcessSetCost implements IProcess {
 	public LumbermillComponentLogic(Machine machine) {
-		super(machine, Lumbermill.RF_COST, Lumbermill.TIME_PERIOD);
+		super(machine, Lumbermill.TIME_PERIOD);
 	}
 
 	@Override

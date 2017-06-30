@@ -1,5 +1,6 @@
 package binnie.extrabees.apiary.machine.stimulator;
 
+import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
 import binnie.core.machines.Machine;
 import binnie.extrabees.apiary.ComponentBeeModifier;
 import forestry.api.apiculture.IBeeGenome;
@@ -13,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StimulatorModifierComponent extends ComponentBeeModifier implements IBeeModifier, IBeeListener {
-	protected float powerUsage;
+	protected int powerUsage;
 	protected boolean powered;
 	protected StimulatorCircuit[] modifiers;
 
 	public StimulatorModifierComponent(Machine machine) {
 		super(machine);
-		powerUsage = 0.0f;
+		powerUsage = 0;
 		powered = false;
 		modifiers = new StimulatorCircuit[0];
 	}
@@ -28,11 +29,14 @@ public class StimulatorModifierComponent extends ComponentBeeModifier implements
 	public void onUpdate() {
 		super.onUpdate();
 		modifiers = getCircuits();
-		powerUsage = 0.0f;
+		powerUsage = 0;
 		for (StimulatorCircuit beeMod : modifiers) {
 			powerUsage += beeMod.getPowerUsage();
 		}
-		powered = getUtil().hasEnergyMJ(powerUsage);
+
+		IShaftPowerReceiver powerReceiver = getUtil().getShaftPowerReceiver();
+		powerReceiver.setMinPower(powerUsage);
+		powered = powerUsage <= powerReceiver.getPower();
 	}
 
 	public ICircuitBoard getHiveFrame() {
@@ -194,6 +198,6 @@ public class StimulatorModifierComponent extends ComponentBeeModifier implements
 
 	@Override
 	public void wearOutEquipment(int amount) {
-		getUtil().useEnergyMJ(powerUsage);
+		// @ToDo: Look into wearing out equipment
 	}
 }

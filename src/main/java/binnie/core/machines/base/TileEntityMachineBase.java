@@ -1,14 +1,11 @@
 package binnie.core.machines.base;
 
+import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
 import binnie.core.machines.Machine;
 import binnie.core.machines.inventory.IInventoryMachine;
 import binnie.core.machines.inventory.TankSlot;
-import binnie.core.machines.power.IPoweredMachine;
 import binnie.core.machines.power.ITankMachine;
-import binnie.core.machines.power.PowerInfo;
-import binnie.core.machines.power.PowerInterface;
 import binnie.core.machines.power.TankInfo;
-import cpw.mods.fml.common.Optional;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +15,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 
-public class TileEntityMachineBase extends TileEntity implements IInventoryMachine, ITankMachine, IPoweredMachine {
+public class TileEntityMachineBase extends TileEntity implements IInventoryMachine, ITankMachine, IShaftPowerReceiver {
 	public IInventoryMachine getInventory() {
 		IInventoryMachine inv = Machine.getInterface(IInventoryMachine.class, this);
 		return (inv == null || inv == this) ? new DefaultInventory() : inv;
@@ -29,9 +26,9 @@ public class TileEntityMachineBase extends TileEntity implements IInventoryMachi
 		return (inv == null || inv == this) ? new DefaultTankContainer() : inv;
 	}
 
-	public IPoweredMachine getPower() {
-		IPoweredMachine inv = Machine.getInterface(IPoweredMachine.class, this);
-		return (inv == null || inv == this) ? new DefaultPower() : inv;
+	public IShaftPowerReceiver getShaftPowerReceiver() {
+		IShaftPowerReceiver inv = Machine.getInterface(IShaftPowerReceiver.class, this);
+		return (inv == null || inv == this) ? null : inv;
 	}
 
 	@Override
@@ -124,11 +121,6 @@ public class TileEntityMachineBase extends TileEntity implements IInventoryMachi
 	}
 
 	@Override
-	public PowerInfo getPowerInfo() {
-		return getPower().getPowerInfo();
-	}
-
-	@Override
 	public TankInfo[] getTankInfos() {
 		return getTankContainer().getTankInfos();
 	}
@@ -193,57 +185,111 @@ public class TileEntityMachineBase extends TileEntity implements IInventoryMachi
 		return getTankContainer().getTanks();
 	}
 
+
+	/* IShaftPowerReceiver */
+
 	@Override
-	@Optional.Method(modid = "IC2")
-	public double getDemandedEnergy() {
-		return getPower().getDemandedEnergy();
+	public void setOmega(int i) {
+		getShaftPowerReceiver().setOmega(i);
 	}
 
 	@Override
-	@Optional.Method(modid = "IC2")
-	public int getSinkTier() {
-		return getPower().getSinkTier();
+	public void setTorque(int i) {
+		getShaftPowerReceiver().setTorque(i);
 	}
 
 	@Override
-	@Optional.Method(modid = "IC2")
-	public double injectEnergy(ForgeDirection directionFrom, double amount, double voltage) {
-		return getPower().injectEnergy(directionFrom, amount, voltage);
+	public void setPower(long l) {
+		getShaftPowerReceiver().setPower(l);
 	}
 
 	@Override
-	@Optional.Method(modid = "IC2")
-	public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction) {
-		return getPower().acceptsEnergyFrom(emitter, direction);
+	public void noInputMachine() {
+		getShaftPowerReceiver().noInputMachine();
 	}
 
 	@Override
-	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		return getPower().receiveEnergy(from, maxReceive, simulate);
+	public boolean canReadFrom(ForgeDirection forgeDirection) {
+		return true; // (forgeDirection == ForgeDirection.EAST || forgeDirection == ForgeDirection.WEST || forgeDirection == ForgeDirection.NORTH);
 	}
 
 	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		return getPower().extractEnergy(from, maxExtract, simulate);
+	public boolean isReceiving() {
+		return getShaftPowerReceiver().isReceiving();
 	}
 
 	@Override
-	public int getEnergyStored(ForgeDirection from) {
-		return getPower().getEnergyStored(from);
+	public int getMinTorque() {
+		return getMinTorque(getTorque());
 	}
 
 	@Override
-	public int getMaxEnergyStored(ForgeDirection from) {
-		return getPower().getMaxEnergyStored(from);
+	public int getMinTorque(int i) {
+		return getShaftPowerReceiver().getMinTorque(i);
 	}
 
 	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
-		return getPower().canConnectEnergy(from);
+	public int getMinOmega() {
+		return getShaftPowerReceiver().getMinOmega();
 	}
 
 	@Override
-	public PowerInterface getInterface() {
-		return getPower().getInterface();
+	public int getMinOmega(int i) {
+		return getShaftPowerReceiver().getMinTorque(i);
+	}
+
+	@Override
+	public long getMinPower() {
+		return getShaftPowerReceiver().getMinPower();
+	}
+
+	@Override
+	public long getMinPower(long l) {
+		return getShaftPowerReceiver().getMinPower(l);
+	}
+
+	@Override
+	public int getOmega() {
+		return getShaftPowerReceiver().getOmega();
+	}
+
+	@Override
+	public int getTorque() {
+		return getShaftPowerReceiver().getTorque();
+	}
+
+	@Override
+	public long getPower() {
+		return getShaftPowerReceiver().getPower();
+	}
+
+	@Override
+	public String getName() {
+		return getShaftPowerReceiver().getName();
+	}
+
+	@Override
+	public int getIORenderAlpha() {
+		return getShaftPowerReceiver().getIORenderAlpha();
+	}
+
+	@Override
+	public void setIORenderAlpha(int i) {
+		getShaftPowerReceiver().setIORenderAlpha(i);
+	}
+
+	@Override
+	public void setMinTorque(int i) {
+		getShaftPowerReceiver().setMinTorque(i);
+	}
+
+	@Override
+	public void setMinOmega(int i) {
+		getShaftPowerReceiver().setMinOmega(i);
+	}
+
+	@Override
+	public void setMinPower(long l) {
+		getShaftPowerReceiver().setMinPower(l);
 	}
 }

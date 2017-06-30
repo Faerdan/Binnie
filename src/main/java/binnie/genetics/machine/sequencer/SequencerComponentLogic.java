@@ -32,11 +32,6 @@ public class SequencerComponentLogic extends ComponentProcess implements IProces
 	}
 
 	@Override
-	public int getProcessEnergy() {
-		return getProcessLength() * 20;
-	}
-
-	@Override
 	public ErrorState canWork() {
 		if (getUtil().isSlotEmpty(Sequencer.SLOT_TARGET_INDEX)) {
 			return new ErrorState.NoItem(

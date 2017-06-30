@@ -66,7 +66,7 @@ public class IsolatorPackage extends PackageGeneticBase implements IMachineInfor
 		ComponentInventoryTransfer transfer = new ComponentInventoryTransfer(machine);
 		transfer.addRestock(Isolator.SLOT_RESERVE, Isolator.SLOT_TARGET, 1);
 		transfer.addStorage(Isolator.SLOT_RESULT, Isolator.SLOT_FINISHED);
-		new ComponentPowerReceptor(machine, Isolator.POWER_CAPACITY);
+		new ComponentPowerReceptor(machine, this.getUID(), 1, 8192, 196608);
 		new IsolatorComponentLogic(machine);
 		new IsolatorComponentFX(machine);
 	}

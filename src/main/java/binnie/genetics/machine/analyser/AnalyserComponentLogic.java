@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 
 public class AnalyserComponentLogic extends ComponentProcessSetCost implements IProcess {
 	public AnalyserComponentLogic(Machine machine) {
-		super(machine, Analyser.RF_COST, Analyser.TIME_PERIOD);
+		super(machine, Analyser.TIME_PERIOD);
 	}
 
 	@Override

@@ -81,7 +81,7 @@ public class InoculatorPackage extends PackageGeneticBase implements IMachineInf
 			}
 		});
 
-		new ComponentPowerReceptor(machine, Inoculator.POWER_STORAGE);
+		new ComponentPowerReceptor(machine, this.getUID(), 1, 8192, 262144);
 		new InoculatorComponentLogic(machine);
 		new InoculatorComponentFX(machine);
 		new ComponentTankContainer(machine)

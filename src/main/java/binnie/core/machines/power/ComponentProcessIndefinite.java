@@ -1,17 +1,16 @@
 package binnie.core.machines.power;
 
+import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
 import binnie.core.machines.IMachine;
 import binnie.core.machines.MachineComponent;
 import binnie.core.machines.network.INetwork;
 import binnie.core.util.I18N;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class ComponentProcessIndefinate extends MachineComponent implements IProcess, INetwork.TilePacketSync {
-	private float energyPerTick;
+public abstract class ComponentProcessIndefinite extends MachineComponent implements IProcess, INetwork.TilePacketSync {
 	private boolean inProgress;
 	private float actionPauseProcess;
 	private float actionCancelTask;
-	int clientEnergyPerSecond;
 
 	@Override
 	public void syncFromNBT(NBTTagCompound nbt) {
@@ -23,21 +22,14 @@ public abstract class ComponentProcessIndefinate extends MachineComponent implem
 		nbt.setBoolean("progress", inProgress);
 	}
 
-	public ComponentProcessIndefinate(IMachine machine, float energyPerTick) {
+	public ComponentProcessIndefinite(IMachine machine) {
 		super(machine);
 		actionPauseProcess = 0.0f;
 		actionCancelTask = 0.0f;
-		clientEnergyPerSecond = 0;
-		this.energyPerTick = energyPerTick;
 	}
 
-	protected IPoweredMachine getPower() {
-		return getMachine().getInterface(IPoweredMachine.class);
-	}
-
-	@Override
-	public float getEnergyPerTick() {
-		return energyPerTick;
+	protected IShaftPowerReceiver getPower() {
+		return getMachine().getInterface(IShaftPowerReceiver.class);
 	}
 
 	@Override
@@ -67,7 +59,7 @@ public abstract class ComponentProcessIndefinate extends MachineComponent implem
 	}
 
 	protected void progressTick() {
-		getPower().getInterface().useEnergy(PowerSystem.RF, getEnergyPerTick(), true);
+		// ignored
 	}
 
 	@Override
@@ -89,9 +81,10 @@ public abstract class ComponentProcessIndefinate extends MachineComponent implem
 				I18N.localise("binniecore.gui.tooltip.task.paused.desc")
 			);
 		}
-		if (getPower().getInterface().getEnergy(PowerSystem.RF) < getEnergyPerTick()) {
+		if (getPower().getTorque() < getPower().getMinTorque() || getPower().getOmega() < getPower().getMinOmega() || getPower().getPower() < getPower().getMinPower()) {
 			return new ErrorState.InsufficientPower();
 		}
+		getPower().noInputMachine();
 		return null;
 	}
 

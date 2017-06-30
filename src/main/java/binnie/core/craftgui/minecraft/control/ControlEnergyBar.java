@@ -1,5 +1,6 @@
 package binnie.core.craftgui.minecraft.control;
 
+import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
 import binnie.core.craftgui.CraftGUI;
 import binnie.core.craftgui.ITooltip;
 import binnie.core.craftgui.IWidget;
@@ -14,7 +15,6 @@ import binnie.core.craftgui.minecraft.Window;
 import binnie.core.craftgui.resource.minecraft.CraftGUITexture;
 import binnie.core.machines.Machine;
 import binnie.core.machines.TileEntityMachine;
-import binnie.core.machines.power.IPoweredMachine;
 import binnie.core.machines.power.IProcess;
 import binnie.core.util.I18N;
 import net.minecraft.inventory.IInventory;
@@ -32,61 +32,43 @@ public class ControlEnergyBar extends Control implements ITooltip {
 	}
 
 	// TODO unused method?
-	public IPoweredMachine getClientPower() {
+	public IShaftPowerReceiver getClientPower() {
 		IInventory inventory = Window.get(this).getInventory();
 		TileEntityMachine machine = (inventory instanceof TileEntityMachine) ? (TileEntityMachine) inventory : null;
 		if (machine == null) {
 			return null;
 		}
 
-		IPoweredMachine clientPower = machine.getMachine().getInterface(IPoweredMachine.class);
+		IShaftPowerReceiver clientPower = machine.getMachine().getInterface(IShaftPowerReceiver.class);
 		return clientPower;
-	}
-
-	public float getPercentage() {
-		float percentage = 100.0f * getStoredEnergy() / getMaxEnergy();
-		if (percentage > 100.0f) {
-			percentage = 100.0f;
-		}
-		return percentage;
-	}
-
-	private float getStoredEnergy() {
-		return Window.get(this)
-			.getContainer()
-			.getPowerInfo()
-			.getStoredEnergy();
-	}
-
-	private float getMaxEnergy() {
-		return Window.get(this)
-			.getContainer()
-			.getPowerInfo()
-			.getMaxEnergy();
 	}
 
 	@Override
 	public void getTooltip(Tooltip tooltip) {
-		tooltip.add(I18N.localise("binniecore.gui.tooltip.chargedPower", (int) getPercentage()));
-		tooltip.add(I18N.localise("binniecore.gui.tooltip.powerInfo", getStoredEnergy(), getMaxEnergy()));
+		IShaftPowerReceiver clientPower = getClientPower();
+		tooltip.add(I18N.localise("binniecore.gui.tooltip.chargedPower", (clientPower != null) ? clientPower.getPower() : -1));
+		tooltip.add(I18N.localise("binniecore.gui.tooltip.powerInfo", (clientPower != null) ? clientPower.getTorque() : -1, (clientPower != null) ? clientPower.getOmega() : -1));
 	}
 
 	@Override
 	public void getHelpTooltip(Tooltip tooltip) {
+		IShaftPowerReceiver clientPower = getClientPower();
 		tooltip.add(I18N.localise("binniecore.gui.tooltip.powerBar"));
-		tooltip.add(I18N.localise("binniecore.gui.tooltip.currentPower", getStoredEnergy(), (int) getPercentage()));
-		tooltip.add(I18N.localise("binniecore.gui.tooltip.capacityPower", getMaxEnergy()));
+		tooltip.add(I18N.localise("binniecore.gui.tooltip.currentPower", (clientPower != null) ? clientPower.getTorque() : -1, (clientPower != null) ? clientPower.getOmega() : -1));
+		tooltip.add(I18N.localise("binniecore.gui.tooltip.capacityPower", (clientPower != null) ? clientPower.getPower() : -1));
 
 		IProcess process = Machine.getInterface(IProcess.class, Window.get(this).getInventory());
 		if (process != null) {
-			tooltip.add(I18N.localise("binniecore.gui.tooltip.usagePower", (int) process.getEnergyPerTick()));
+			tooltip.add(I18N.localise("binniecore.gui.tooltip.usagePower", 33));
 		}
 	}
 
 	@Override
 	public void onRenderBackground() {
 		CraftGUI.Render.texture(CraftGUITexture.EnergyBarBack, getArea());
-		float percentage = getPercentage() / 100.0f;
+
+		IShaftPowerReceiver clientPower = getClientPower();
+		float percentage = clientPower != null ? Math.min(100, Math.max(0, (clientPower.getPower() / clientPower.getMinPower()) * 100.0f)) : 0f;
 		CraftGUI.Render.color(getColourFromPercentage(percentage));
 		IArea area = getArea();
 

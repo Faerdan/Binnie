@@ -55,7 +55,7 @@ public class AnalyserPackage extends PackageGeneticBase implements IMachineInfor
 		});
 
 		new ComponentChargedSlots(machine).addCharge(Analyser.SLOT_DYE);
-		new ComponentPowerReceptor(machine, 500);
+		new ComponentPowerReceptor(machine, this.getUID(), 1, 4096, 131072);
 		new AnalyserComponentLogic(machine);
 		new AnalyserComponentFX(machine);
 	}

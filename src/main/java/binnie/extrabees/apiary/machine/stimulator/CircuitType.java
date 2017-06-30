@@ -8,15 +8,15 @@ import forestry.api.apiculture.IBeeModifier;
 import forestry.api.circuits.ICircuitLayout;
 
 public enum CircuitType implements IBeeModifier {
-	LowVoltage(3, 10),
-	HighVoltage(5, 20),
-	Plant(10, 10),
-	Death(6, 10),
-	Life(11, 10),
-	Nether(7, 15),
-	Mutation(4, 15),
-	Inhibitor(1, 10),
-	Territory(2, 10);
+	LowVoltage(3, 65536),
+	HighVoltage(5, 131072),
+	Plant(10, 65536),
+	Death(6, 65536),
+	Life(11, 65536),
+	Nether(7, 98304),
+	Mutation(4, 98304),
+	Inhibitor(1, 65536),
+	Territory(2, 65536);
 
 	static {
 		CircuitType.LowVoltage.logic.setModifier(EnumBeeModifier.PRODUCTION, 1.5f, 5.0f);

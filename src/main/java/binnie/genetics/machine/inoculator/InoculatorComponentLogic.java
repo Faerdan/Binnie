@@ -20,17 +20,12 @@ public class InoculatorComponentLogic extends ComponentProcessSetCost implements
 	private float bacteriaDrain = 0.0f;
 
 	public InoculatorComponentLogic(Machine machine) {
-		super(machine, Inoculator.RF_COST, Inoculator.TIME_PERIOD);
+		super(machine, Inoculator.TIME_PERIOD);
 	}
 
 	@Override
 	public int getProcessLength() {
 		return super.getProcessLength() * getNumberOfGenes();
-	}
-
-	@Override
-	public int getProcessEnergy() {
-		return super.getProcessEnergy() * getNumberOfGenes();
 	}
 
 	private int getNumberOfGenes() {

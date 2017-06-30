@@ -16,7 +16,7 @@ public class GenepoolComponentLogic extends ComponentProcessSetCost implements I
 	private float ethanolDrain;
 
 	public GenepoolComponentLogic(Machine machine) {
-		super(machine, Genepool.RF_COST, Genepool.TIME_PERIOD);
+		super(machine, Genepool.TIME_PERIOD);
 		ethanolDrain = 0.0f;
 	}
 

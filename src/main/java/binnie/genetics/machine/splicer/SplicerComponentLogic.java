@@ -20,7 +20,7 @@ public class SplicerComponentLogic extends ComponentProcessSetCost implements IP
 	public int nOfGenes;
 
 	public SplicerComponentLogic(Machine machine) {
-		super(machine, Splicer.RF_COST, Splicer.TIME_PERIOD);
+		super(machine, Splicer.TIME_PERIOD);
 		nOfGenes = 0;
 	}
 
@@ -33,15 +33,6 @@ public class SplicerComponentLogic extends ComponentProcessSetCost implements IP
 		// Fix for / by 0
 		int temp = (int) (super.getProcessLength() * n);
 		return temp != 0 ? temp : 1;
-	}
-
-	@Override
-	public int getProcessEnergy() {
-		float n = getNumberOfGenes();
-		if (n > 1.0f) {
-			n = 1.0f + (n - 1.0f) * 0.5f;
-		}
-		return (int) (super.getProcessEnergy() * n);
 	}
 
 	@Override

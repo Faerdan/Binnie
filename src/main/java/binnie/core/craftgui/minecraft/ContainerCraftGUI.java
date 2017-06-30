@@ -8,10 +8,8 @@ import binnie.core.machines.Machine;
 import binnie.core.machines.network.INetwork;
 import binnie.core.machines.power.ErrorState;
 import binnie.core.machines.power.IErrorStateSource;
-import binnie.core.machines.power.IPoweredMachine;
 import binnie.core.machines.power.IProcess;
 import binnie.core.machines.power.ITankMachine;
-import binnie.core.machines.power.PowerInfo;
 import binnie.core.machines.power.ProcessInfo;
 import binnie.core.machines.power.TankInfo;
 import binnie.core.machines.transfer.TransferRequest;
@@ -37,7 +35,6 @@ public class ContainerCraftGUI extends Container {
 	private Map<String, NBTTagCompound> syncedNBT;
 	private Map<String, NBTTagCompound> sentNBT;
 	private Map<Integer, TankInfo> syncedTanks;
-	private PowerInfo syncedPower;
 	private ProcessInfo syncedProcess;
 	private int errorType;
 	private ErrorState error;
@@ -48,7 +45,6 @@ public class ContainerCraftGUI extends Container {
 		syncedNBT = new HashMap<>();
 		sentNBT = new HashMap<>();
 		syncedTanks = new HashMap<>();
-		syncedPower = new PowerInfo();
 		syncedProcess = new ProcessInfo();
 		errorType = 0;
 		error = null;
@@ -239,8 +235,6 @@ public class ContainerCraftGUI extends Container {
 
 		if (name.contains("tank-update")) {
 			onTankUpdate(action);
-		} else if (name.equals("power-update")) {
-			onPowerUpdate(action);
 		} else if (name.equals("process-update")) {
 			onProcessUpdate(action);
 		} else if (name.equals("error-update")) {
@@ -257,7 +251,6 @@ public class ContainerCraftGUI extends Container {
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
 		ITankMachine tanks = Machine.getInterface(ITankMachine.class, window.getInventory());
-		IPoweredMachine powered = Machine.getInterface(IPoweredMachine.class, window.getInventory());
 		IErrorStateSource error = Machine.getInterface(IErrorStateSource.class, window.getInventory());
 		IProcess process = Machine.getInterface(IProcess.class, window.getInventory());
 		if (tanks != null && window.isServer()) {
@@ -270,9 +263,6 @@ public class ContainerCraftGUI extends Container {
 			}
 		}
 
-		if (powered != null && window.isServer()) {
-			syncedNBT.put("power-update", createPowerNBT(powered.getPowerInfo()));
-		}
 		if (process != null && window.isServer()) {
 			syncedNBT.put("process-update", createProcessNBT(process.getInfo()));
 		}
@@ -326,12 +316,6 @@ public class ContainerCraftGUI extends Container {
 		return nbt;
 	}
 
-	public NBTTagCompound createPowerNBT(PowerInfo powerInfo) {
-		NBTTagCompound nbt = new NBTTagCompound();
-		powerInfo.writeToNBT(nbt);
-		return nbt;
-	}
-
 	public NBTTagCompound createProcessNBT(ProcessInfo powerInfo) {
 		NBTTagCompound nbt = new NBTTagCompound();
 		powerInfo.writeToNBT(nbt);
@@ -354,15 +338,6 @@ public class ContainerCraftGUI extends Container {
 
 	public void onProcessUpdate(NBTTagCompound nbt) {
 		(syncedProcess = new ProcessInfo()).readFromNBT(nbt);
-	}
-
-	public void onPowerUpdate(NBTTagCompound nbt) {
-		syncedPower = new PowerInfo();
-		syncedPower.readFromNBT(nbt);
-	}
-
-	public PowerInfo getPowerInfo() {
-		return syncedPower;
 	}
 
 	public ProcessInfo getProcessInfo() {

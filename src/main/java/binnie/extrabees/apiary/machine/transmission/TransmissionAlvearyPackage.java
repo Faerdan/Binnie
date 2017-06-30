@@ -13,7 +13,7 @@ public class TransmissionAlvearyPackage extends AlvearyMachine.AlvearyPackage im
 
 	@Override
 	public void createMachine(Machine machine) {
-		new ComponentPowerReceptor(machine, 1000);
+		new ComponentPowerReceptor(machine, this.getUID(), 1, 1, 1);
 		new TransmissionModifierComponent(machine);
 	}
 }

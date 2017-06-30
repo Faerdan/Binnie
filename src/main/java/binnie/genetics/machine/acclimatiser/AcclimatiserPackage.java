@@ -52,7 +52,7 @@ public class AcclimatiserPackage extends PackageGeneticBase implements IMachineI
 			}
 		});
 
-		new ComponentPowerReceptor(machine, 5000);
+		new ComponentPowerReceptor(machine, this.getUID(), 32, 1, 8192);
 		new AcclimatiserComponentLogic(machine);
 	}
 
