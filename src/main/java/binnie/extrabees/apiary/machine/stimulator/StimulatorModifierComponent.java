@@ -35,7 +35,7 @@ public class StimulatorModifierComponent extends ComponentBeeModifier implements
 		}
 
 		IAdvancedShaftPowerReceiver powerReceiver = getUtil().getShaftPowerReceiver();
-		powerReceiver.setMinPower(powerUsage);
+		//powerReceiver.setMinPower(powerUsage);
 		powered = powerUsage <= powerReceiver.getPower();
 	}
 
