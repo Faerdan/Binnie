@@ -1,6 +1,6 @@
 package binnie.core.triggers;
 
-import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
+import Reika.RotaryCraft.API.Power.IAdvancedShaftPowerReceiver;
 import binnie.core.machines.Machine;
 
 public class TriggerPower {
@@ -30,9 +30,9 @@ public class TriggerPower {
 	}
 
 	private static double getPercentage(Object tile) {
-		IShaftPowerReceiver process = Machine.getInterface(IShaftPowerReceiver.class, tile);
+		IAdvancedShaftPowerReceiver process = Machine.getInterface(IAdvancedShaftPowerReceiver.class, tile);
 		if (process != null) {
-			return (double) (process.getPower() / process.getMinPower());
+			return (double) (process.getPower() / process.getMinPower(0));
 		}
 		return 0.0;
 	}

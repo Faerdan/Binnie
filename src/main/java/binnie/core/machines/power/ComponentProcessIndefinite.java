@@ -1,6 +1,6 @@
 package binnie.core.machines.power;
 
-import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
+import Reika.RotaryCraft.API.Power.IAdvancedShaftPowerReceiver;
 import binnie.core.machines.IMachine;
 import binnie.core.machines.MachineComponent;
 import binnie.core.machines.network.INetwork;
@@ -28,8 +28,8 @@ public abstract class ComponentProcessIndefinite extends MachineComponent implem
 		actionCancelTask = 0.0f;
 	}
 
-	protected IShaftPowerReceiver getPower() {
-		return getMachine().getInterface(IShaftPowerReceiver.class);
+	protected IAdvancedShaftPowerReceiver getPower() {
+		return getMachine().getInterface(IAdvancedShaftPowerReceiver.class);
 	}
 
 	@Override
@@ -81,10 +81,9 @@ public abstract class ComponentProcessIndefinite extends MachineComponent implem
 				I18N.localise("binniecore.gui.tooltip.task.paused.desc")
 			);
 		}
-		if (getPower().getTorque() < getPower().getMinTorque() || getPower().getOmega() < getPower().getMinOmega() || getPower().getPower() < getPower().getMinPower()) {
+		if (getPower().getTorque() < getPower().getMinTorque(0) || getPower().getOmega() < getPower().getMinOmega(0) || getPower().getPower() < getPower().getMinPower(0)) {
 			return new ErrorState.InsufficientPower();
 		}
-		getPower().noInputMachine();
 		return null;
 	}
 

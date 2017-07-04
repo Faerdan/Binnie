@@ -1,6 +1,6 @@
 package binnie.extrabees.apiary.machine.transmission;
 
-import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
+import Reika.RotaryCraft.API.Power.IAdvancedShaftPowerReceiver;
 import binnie.core.machines.Machine;
 import binnie.extrabees.apiary.ComponentBeeModifier;
 import binnie.extrabees.apiary.TileExtraBeeAlveary;
@@ -23,7 +23,7 @@ public class TransmissionModifierComponent extends ComponentBeeModifier implemen
 	public void onUpdate() {
 		super.onUpdate();
 
-		IShaftPowerReceiver shaftPowerReceiver = getUtil().getShaftPowerReceiver();
+		IAdvancedShaftPowerReceiver shaftPowerReceiver = getUtil().getShaftPowerReceiver();
 
 		if (shaftPowerReceiver.getOmega() < TileAlveary.MIN_OMEGA)
 		{
@@ -31,30 +31,25 @@ public class TransmissionModifierComponent extends ComponentBeeModifier implemen
 		}
 
 		int minTorque = 0;
-		IShaftPowerReceiver tileShaftPowerReceiver;
+		IAdvancedShaftPowerReceiver tileShaftPowerReceiver;
 		TileExtraBeeAlveary tile = (TileExtraBeeAlveary) getMachine().getTileEntity();
-		List<IShaftPowerReceiver> handlers = new ArrayList<IShaftPowerReceiver>();
+		List<IAdvancedShaftPowerReceiver> handlers = new ArrayList<IAdvancedShaftPowerReceiver>();
 		for (TileEntity alvearyTile : tile.getAlvearyBlocks()) {
-			if (alvearyTile instanceof IShaftPowerReceiver && alvearyTile != tile) {
-				tileShaftPowerReceiver = (IShaftPowerReceiver)alvearyTile;
-				minTorque += tileShaftPowerReceiver.getMinTorque();
-				tileShaftPowerReceiver.noInputMachine();
+			if (alvearyTile instanceof IAdvancedShaftPowerReceiver && alvearyTile != tile) {
+				tileShaftPowerReceiver = (IAdvancedShaftPowerReceiver)alvearyTile;
+				minTorque += tileShaftPowerReceiver.getMinTorque(0);
 				handlers.add(tileShaftPowerReceiver);
 			}
 		}
 
-		shaftPowerReceiver.setMinTorque((minTorque > 1) ? minTorque : 1);
+		//shaftPowerReceiver.setMinTorque((minTorque > 1) ? minTorque : 1);
 
-		if (handlers.isEmpty() || shaftPowerReceiver.getMinTorque() > shaftPowerReceiver.getTorque()) {
+		if (handlers.isEmpty() || /*shaftPowerReceiver.getMinTorque(0)*/ minTorque > shaftPowerReceiver.getTorque()) {
 			return;
 		}
 
-		for (IShaftPowerReceiver handler : handlers) {
-			handler.setTorque(handler.getMinTorque());
-			handler.setOmega(shaftPowerReceiver.getOmega());
-			handler.setPower(handler.getMinTorque()*shaftPowerReceiver.getOmega());
+		for (IAdvancedShaftPowerReceiver handler : handlers) {
+			handler.addPower(handler.getMinTorque(0), shaftPowerReceiver.getOmega(), (long) handler.getMinTorque(0) * (long) shaftPowerReceiver.getOmega(), null);
 		}
-
-		shaftPowerReceiver.noInputMachine();
 	}
 }

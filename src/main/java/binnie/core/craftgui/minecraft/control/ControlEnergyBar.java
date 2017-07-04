@@ -1,6 +1,6 @@
 package binnie.core.craftgui.minecraft.control;
 
-import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
+import Reika.RotaryCraft.API.Power.IAdvancedShaftPowerReceiver;
 import binnie.core.craftgui.CraftGUI;
 import binnie.core.craftgui.ITooltip;
 import binnie.core.craftgui.IWidget;
@@ -32,27 +32,27 @@ public class ControlEnergyBar extends Control implements ITooltip {
 	}
 
 	// TODO unused method?
-	public IShaftPowerReceiver getClientPower() {
+	public IAdvancedShaftPowerReceiver getClientPower() {
 		IInventory inventory = Window.get(this).getInventory();
 		TileEntityMachine machine = (inventory instanceof TileEntityMachine) ? (TileEntityMachine) inventory : null;
 		if (machine == null) {
 			return null;
 		}
 
-		IShaftPowerReceiver clientPower = machine.getMachine().getInterface(IShaftPowerReceiver.class);
+		IAdvancedShaftPowerReceiver clientPower = machine.getMachine().getInterface(IAdvancedShaftPowerReceiver.class);
 		return clientPower;
 	}
 
 	@Override
 	public void getTooltip(Tooltip tooltip) {
-		IShaftPowerReceiver clientPower = getClientPower();
+		IAdvancedShaftPowerReceiver clientPower = getClientPower();
 		tooltip.add(I18N.localise("binniecore.gui.tooltip.chargedPower", (clientPower != null) ? clientPower.getPower() : -1));
 		tooltip.add(I18N.localise("binniecore.gui.tooltip.powerInfo", (clientPower != null) ? clientPower.getTorque() : -1, (clientPower != null) ? clientPower.getOmega() : -1));
 	}
 
 	@Override
 	public void getHelpTooltip(Tooltip tooltip) {
-		IShaftPowerReceiver clientPower = getClientPower();
+		IAdvancedShaftPowerReceiver clientPower = getClientPower();
 		tooltip.add(I18N.localise("binniecore.gui.tooltip.powerBar"));
 		tooltip.add(I18N.localise("binniecore.gui.tooltip.currentPower", (clientPower != null) ? clientPower.getTorque() : -1, (clientPower != null) ? clientPower.getOmega() : -1));
 		tooltip.add(I18N.localise("binniecore.gui.tooltip.capacityPower", (clientPower != null) ? clientPower.getPower() : -1));
@@ -67,8 +67,8 @@ public class ControlEnergyBar extends Control implements ITooltip {
 	public void onRenderBackground() {
 		CraftGUI.Render.texture(CraftGUITexture.EnergyBarBack, getArea());
 
-		IShaftPowerReceiver clientPower = getClientPower();
-		float percentage = clientPower != null ? Math.min(100, Math.max(0, (clientPower.getPower() / clientPower.getMinPower()) * 100.0f)) : 0f;
+		IAdvancedShaftPowerReceiver clientPower = getClientPower();
+		float percentage = clientPower != null ? Math.min(100, Math.max(0, (clientPower.getPower() / clientPower.getMinPower(0)) * 100.0f)) : 0f;
 		CraftGUI.Render.color(getColourFromPercentage(percentage));
 		IArea area = getArea();
 

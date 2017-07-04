@@ -1,6 +1,6 @@
 package binnie.core.machines;
 
-import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
+import Reika.RotaryCraft.API.Power.IAdvancedShaftPowerReceiver;
 import binnie.core.BinnieCore;
 import binnie.core.machines.inventory.IChargedSlots;
 import binnie.core.machines.power.IProcess;
@@ -32,8 +32,8 @@ public class MachineUtil {
 		return machine.getInterface(ITankMachine.class);
 	}
 
-	public IShaftPowerReceiver getShaftPowerReceiver() {
-		return machine.getInterface(IShaftPowerReceiver.class);
+	public IAdvancedShaftPowerReceiver getShaftPowerReceiver() {
+		return machine.getInterface(IAdvancedShaftPowerReceiver.class);
 	}
 
 	public boolean isSlotEmpty(int slot) {

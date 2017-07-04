@@ -1,6 +1,6 @@
 package binnie.extrabees.apiary.machine.stimulator;
 
-import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
+import Reika.RotaryCraft.API.Power.IAdvancedShaftPowerReceiver;
 import binnie.core.machines.Machine;
 import binnie.extrabees.apiary.ComponentBeeModifier;
 import forestry.api.apiculture.IBeeGenome;
@@ -34,7 +34,7 @@ public class StimulatorModifierComponent extends ComponentBeeModifier implements
 			powerUsage += beeMod.getPowerUsage();
 		}
 
-		IShaftPowerReceiver powerReceiver = getUtil().getShaftPowerReceiver();
+		IAdvancedShaftPowerReceiver powerReceiver = getUtil().getShaftPowerReceiver();
 		powerReceiver.setMinPower(powerUsage);
 		powered = powerUsage <= powerReceiver.getPower();
 	}

@@ -1,6 +1,6 @@
 package binnie.core.machines.base;
 
-import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
+import Reika.RotaryCraft.API.Power.IAdvancedShaftPowerReceiver;
 import binnie.core.machines.Machine;
 import binnie.core.machines.inventory.IInventoryMachine;
 import binnie.core.machines.inventory.TankSlot;
@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 
-public class TileEntityMachineBase extends TileEntity implements IInventoryMachine, ITankMachine, IShaftPowerReceiver {
+public class TileEntityMachineBase extends TileEntity implements IInventoryMachine, ITankMachine, IAdvancedShaftPowerReceiver {
 	public IInventoryMachine getInventory() {
 		IInventoryMachine inv = Machine.getInterface(IInventoryMachine.class, this);
 		return (inv == null || inv == this) ? new DefaultInventory() : inv;
@@ -26,8 +26,8 @@ public class TileEntityMachineBase extends TileEntity implements IInventoryMachi
 		return (inv == null || inv == this) ? new DefaultTankContainer() : inv;
 	}
 
-	public IShaftPowerReceiver getShaftPowerReceiver() {
-		IShaftPowerReceiver inv = Machine.getInterface(IShaftPowerReceiver.class, this);
+	public IAdvancedShaftPowerReceiver getShaftPowerReceiver() {
+		IAdvancedShaftPowerReceiver inv = Machine.getInterface(IAdvancedShaftPowerReceiver.class, this);
 		return (inv == null || inv == this) ? null : inv;
 	}
 
@@ -186,110 +186,74 @@ public class TileEntityMachineBase extends TileEntity implements IInventoryMachi
 	}
 
 
-	/* IShaftPowerReceiver */
-
+	/* IAdvancedShaftPowerReceiver */
 	@Override
-	public void setOmega(int i) {
-		getShaftPowerReceiver().setOmega(i);
+	public boolean addPower(int addTorque, int addOmega, long addPower, ForgeDirection inputDirection) {
+		return getShaftPowerReceiver() != null && getShaftPowerReceiver().addPower(addTorque, addOmega, addPower, inputDirection);
 	}
 
 	@Override
-	public void setTorque(int i) {
-		getShaftPowerReceiver().setTorque(i);
-	}
-
-	@Override
-	public void setPower(long l) {
-		getShaftPowerReceiver().setPower(l);
-	}
-
-	@Override
-	public void noInputMachine() {
-		getShaftPowerReceiver().noInputMachine();
-	}
-
-	@Override
-	public boolean canReadFrom(ForgeDirection forgeDirection) {
-		return true; // (forgeDirection == ForgeDirection.EAST || forgeDirection == ForgeDirection.WEST || forgeDirection == ForgeDirection.NORTH);
-	}
-
-	@Override
-	public boolean isReceiving() {
-		return getShaftPowerReceiver().isReceiving();
-	}
-
-	@Override
-	public int getMinTorque() {
-		return getMinTorque(getTorque());
-	}
-
-	@Override
-	public int getMinTorque(int i) {
-		return getShaftPowerReceiver().getMinTorque(i);
-	}
-
-	@Override
-	public int getMinOmega() {
-		return getShaftPowerReceiver().getMinOmega();
-	}
-
-	@Override
-	public int getMinOmega(int i) {
-		return getShaftPowerReceiver().getMinTorque(i);
-	}
-
-	@Override
-	public long getMinPower() {
-		return getShaftPowerReceiver().getMinPower();
-	}
-
-	@Override
-	public long getMinPower(long l) {
-		return getShaftPowerReceiver().getMinPower(l);
-	}
-
-	@Override
-	public int getOmega() {
-		return getShaftPowerReceiver().getOmega();
-	}
-
-	@Override
-	public int getTorque() {
-		return getShaftPowerReceiver().getTorque();
-	}
-
-	@Override
-	public long getPower() {
-		return getShaftPowerReceiver().getPower();
-	}
-
-	@Override
-	public String getName() {
-		return getShaftPowerReceiver().getName();
-	}
-
-	@Override
-	public int getIORenderAlpha() {
-		return getShaftPowerReceiver().getIORenderAlpha();
+	public int getStageCount() {
+		return getShaftPowerReceiver() != null ? getShaftPowerReceiver().getStageCount() : 0;
 	}
 
 	@Override
 	public void setIORenderAlpha(int i) {
-		getShaftPowerReceiver().setIORenderAlpha(i);
+		if (getShaftPowerReceiver() != null) getShaftPowerReceiver().setIORenderAlpha(i);
 	}
 
 	@Override
-	public void setMinTorque(int i) {
-		getShaftPowerReceiver().setMinTorque(i);
+	public boolean canReadFrom(ForgeDirection forgeDirection) {
+		return true;
 	}
 
 	@Override
-	public void setMinOmega(int i) {
-		getShaftPowerReceiver().setMinOmega(i);
+	public boolean hasMismatchedInputs() {
+		return getShaftPowerReceiver() != null && getShaftPowerReceiver().hasMismatchedInputs();
 	}
 
 	@Override
-	public void setMinPower(long l) {
-		getShaftPowerReceiver().setMinPower(l);
+	public boolean isReceiving() {
+		return getShaftPowerReceiver() != null && getShaftPowerReceiver().isReceiving();
+	}
+
+	@Override
+	public int getMinTorque(int stageIndex) {
+		return getShaftPowerReceiver() != null ? getShaftPowerReceiver().getMinTorque(stageIndex) : 1;
+	}
+
+	@Override
+	public int getMinOmega(int stageIndex) {
+		return getShaftPowerReceiver() != null ? getShaftPowerReceiver().getMinOmega(stageIndex) : 1;
+	}
+
+	@Override
+	public long getMinPower(int stageIndex) {
+		return getShaftPowerReceiver() != null ? getShaftPowerReceiver().getMinPower(stageIndex) : 1;
+	}
+
+	@Override
+	public long getPower() {
+		return getShaftPowerReceiver() != null ? getShaftPowerReceiver().getPower() : 0;
+	}
+
+	@Override
+	public int getOmega() {
+		return getShaftPowerReceiver() != null ? getShaftPowerReceiver().getOmega() : 0;
+	}
+
+	@Override
+	public int getTorque() {
+		return getShaftPowerReceiver() != null ? getShaftPowerReceiver().getTorque() : 0;
+	}
+
+	@Override
+	public String getName() {
+		return getShaftPowerReceiver() != null ? getShaftPowerReceiver().getName() : "[Binnies]";
+	}
+
+	@Override
+	public int getIORenderAlpha() {
+		return getShaftPowerReceiver() != null ? getShaftPowerReceiver().getIORenderAlpha() : 0;
 	}
 }

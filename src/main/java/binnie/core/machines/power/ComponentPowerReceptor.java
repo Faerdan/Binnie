@@ -1,57 +1,55 @@
 package binnie.core.machines.power;
 
-import Reika.RotaryCraft.API.Power.IShaftPowerReceiver;
+import Reika.RotaryCraft.API.Power.IAdvancedShaftPowerReceiver;
+import Reika.RotaryCraft.API.Power.IShaftPowerInputCaller;
+import Reika.RotaryCraft.API.Power.ShaftPowerInputManager;
 import binnie.core.machines.IMachine;
 import binnie.core.machines.MachineComponent;
 import binnie.core.machines.component.IBuildcraft;
 import binnie.core.machines.component.IInteraction;
+import binnie.core.network.INetworkedEntity;
+import binnie.core.network.packet.PacketPayload;
 import binnie.core.triggers.TriggerData;
 import binnie.core.triggers.TriggerPower;
+import buildcraft.api.core.BCLog;
 import cpw.mods.fml.common.Optional;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
 @Optional.Interface(iface = "binnie.core.machines.component.IBuildcraft.TriggerProvider", modid = "BuildCraft|Silicon")
 public class ComponentPowerReceptor extends MachineComponent implements
-        IShaftPowerReceiver,
+        IShaftPowerInputCaller,
         IBuildcraft.TriggerProvider,
         IInteraction.ChunkUnload,
-        IInteraction.Invalidation {
+        IInteraction.Invalidation,
+        INetworkedEntity {
 
-    private String nameKey;
+    private final ShaftPowerInputManager shaftPowerInputManager;
 
     public ComponentPowerReceptor(IMachine machine, String nameKey, int minTorque, int minOmega, int minPower) {
         super(machine);
 
-        this.nameKey = nameKey;
-
-        setMinTorque(minTorque);
-        setMinOmega(minOmega);
-        setMinPower(minPower);
+        shaftPowerInputManager = new ShaftPowerInputManager(this, nameKey, minTorque, minOmega, minPower);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbttagcompound) {
         super.readFromNBT(nbttagcompound);
-        setTorque(nbttagcompound.getInteger("torque"));
-        setOmega(nbttagcompound.getInteger("omega"));
-        setPower(nbttagcompound.getLong("power"));
 
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbttagcompound) {
         super.writeToNBT(nbttagcompound);
-        nbttagcompound.setInteger("torque", getTorque());
-        nbttagcompound.setInteger("omega", getOmega());
-        nbttagcompound.setLong("power", getPower());
     }
 
     @Override
     public void onUpdate() {
-
+        BCLog.logger.info("ComponentPowerReceptor.onUpdate()");
+        shaftPowerInputManager.update();
     }
 
     @Optional.Method(modid = "BuildCraft|Silicon")
@@ -74,134 +72,101 @@ public class ComponentPowerReceptor extends MachineComponent implements
 
     }
 
-    /* Rotary Power */
-    private int rotaryMinTorque = 1;
-    private int rotaryMinOmega = 1;
-    private long rotaryMinPower = 1;
-
-    private int rotaryOmega;
-    private int rotaryTorque;
-    private long rotaryPower;
-    private int rotaryIORenderAlpha;
-
     @Override
-    public void setOmega(int i) {
-        //BCLog.logger.info("Quarry setOmega: " + i);
-        rotaryOmega = i;
+    public void writeToPacket(PacketPayload payload) {
+        BCLog.logger.info("ComponentPowerReceptor writeToPacket");
+        payload.addInteger(shaftPowerInputManager.getTorque());
+        payload.addInteger(shaftPowerInputManager.getOmega());
+        payload.addInteger(shaftPowerInputManager.hasMismatchedInputs() ? 1 : 0);
     }
 
     @Override
-    public void setTorque(int i) {
-        //BCLog.logger.info("Quarry setTorque: " + i);
-        rotaryTorque = i;
+    public void readFromPacket(PacketPayload payload) {
+        BCLog.logger.info("ComponentPowerReceptor readFromPacket");
+        shaftPowerInputManager.setState(payload.getInteger(), payload.getInteger(), payload.getInteger() == 1);
+    }
+
+
+	/* Rotary Power */
+
+    @Override
+    public void onPowerChange(ShaftPowerInputManager shaftPowerInputManager) {
+        //this.setNeedsNetworkUpdate();
+        //sendNetworkUpdate();
     }
 
     @Override
-    public void setPower(long l) {
-        //BCLog.logger.info("Quarry setPower: " + l);
-        rotaryPower = l;
+    public TileEntity getTileEntity() {
+        return getMachine().getTileEntity();
     }
 
     @Override
-    public void noInputMachine() {
-        rotaryOmega = 0;
-        rotaryTorque = 0;
-        rotaryPower = 0;
+    public boolean addPower(int addTorque, int addOmega, long addPower, ForgeDirection inputDirection) {
+        return shaftPowerInputManager != null && shaftPowerInputManager.addPower(addTorque, addOmega, addPower, inputDirection);
     }
 
     @Override
-    public boolean canReadFrom(ForgeDirection forgeDirection) {
-        return true; // (forgeDirection == ForgeDirection.EAST || forgeDirection == ForgeDirection.WEST || forgeDirection == ForgeDirection.NORTH);
-    }
-
-    @Override
-    public boolean isReceiving() {
-        return true;
-    }
-
-    @Override
-    public int getMinTorque() {
-        return getMinTorque(getTorque());
-    }
-
-    @Override
-    public int getMinTorque(int i) {
-        return rotaryMinTorque;
-    }
-
-    @Override
-    public int getMinOmega() {
-        return getMinOmega(getOmega());
-    }
-
-    @Override
-    public int getMinOmega(int i) {
-        return rotaryMinOmega;
-    }
-
-    @Override
-    public long getMinPower() {
-        return getMinPower(getPower());
-    }
-
-    @Override
-    public long getMinPower(long l) {
-        return rotaryMinPower;
-    }
-
-    @Override
-    public int getOmega() {
-        return rotaryOmega;
-    }
-
-    @Override
-    public int getTorque() {
-        return rotaryTorque;
-    }
-
-    @Override
-    public long getPower() {
-        return rotaryPower;
-    }
-
-    @Override
-    public String getName() {
-        return nameKey;
-    }
-
-    @Override
-    public int getIORenderAlpha() {
-        return rotaryIORenderAlpha;
+    public int getStageCount() {
+        return shaftPowerInputManager != null ? shaftPowerInputManager.getStageCount() : 0;
     }
 
     @Override
     public void setIORenderAlpha(int i) {
-        rotaryIORenderAlpha = i;
+        if (shaftPowerInputManager != null) shaftPowerInputManager.setIORenderAlpha(i);
     }
 
     @Override
-    public void setMinTorque(int i) {
-        if (i >= 1)
-        {
-            rotaryMinTorque = i;
-        }
+    public boolean canReadFrom(ForgeDirection forgeDirection) {
+        return true;
     }
 
     @Override
-    public void setMinOmega(int i) {
-        if (i >= 1)
-        {
-            rotaryMinOmega = i;
-        }
+    public boolean hasMismatchedInputs() {
+        return shaftPowerInputManager != null && shaftPowerInputManager.hasMismatchedInputs();
     }
 
     @Override
-    public void setMinPower(long l) {
-        if (l >= 1)
-        {
-            rotaryMinPower = l;
-        }
+    public boolean isReceiving() {
+        return shaftPowerInputManager != null && shaftPowerInputManager.isReceiving();
     }
 
+    @Override
+    public int getMinTorque(int stageIndex) {
+        return shaftPowerInputManager != null ? shaftPowerInputManager.getMinTorque(stageIndex) : 1;
+    }
 
+    @Override
+    public int getMinOmega(int stageIndex) {
+        return shaftPowerInputManager != null ? shaftPowerInputManager.getMinOmega(stageIndex) : 1;
+    }
+
+    @Override
+    public long getMinPower(int stageIndex) {
+        return shaftPowerInputManager != null ? shaftPowerInputManager.getMinPower(stageIndex) : 1;
+    }
+
+    @Override
+    public long getPower() {
+        return shaftPowerInputManager != null ? shaftPowerInputManager.getPower() : 0;
+    }
+
+    @Override
+    public int getOmega() {
+        return shaftPowerInputManager != null ? shaftPowerInputManager.getOmega() : 0;
+    }
+
+    @Override
+    public int getTorque() {
+        return shaftPowerInputManager != null ? shaftPowerInputManager.getTorque() : 0;
+    }
+
+    @Override
+    public String getName() {
+        return shaftPowerInputManager != null ? shaftPowerInputManager.getName() : "[Forestry]";
+    }
+
+    @Override
+    public int getIORenderAlpha() {
+        return shaftPowerInputManager != null ? shaftPowerInputManager.getIORenderAlpha() : 0;
+    }
 }
