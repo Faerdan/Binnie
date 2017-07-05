@@ -297,6 +297,13 @@ extrabees.flowers.leaves.name=Leaves
 extrabees.flowers.sapling.name=Saplings
 extrabees.flowers.fruit.name=Fruit
 extrabees.flowers.mystical.name=Mystical
+extrabees.flowers.iron.name=Iron
+extrabees.flowers.copper.name=Copper
+extrabees.flowers.gold.name=Gold
+extrabees.flowers.diamond.name=Diamond
+extrabees.flowers.emerald.name=Emerald
+extrabees.flowers.lapis.name=Lapis Lazuli
+extrabees.flowers.tin.name=Tin
 
 extrabees.species.arid.name=Arid
 extrabees.species.arid.desc=Fond of dry landscapes, their combs are quite waxy and contain less honey.|Apiarist Manual

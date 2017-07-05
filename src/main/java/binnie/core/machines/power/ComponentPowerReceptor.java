@@ -7,6 +7,7 @@ import binnie.core.machines.IMachine;
 import binnie.core.machines.MachineComponent;
 import binnie.core.machines.component.IBuildcraft;
 import binnie.core.machines.component.IInteraction;
+import binnie.core.machines.network.INetwork;
 import binnie.core.network.INetworkedEntity;
 import binnie.core.network.packet.PacketPayload;
 import binnie.core.triggers.TriggerData;
@@ -25,7 +26,7 @@ public class ComponentPowerReceptor extends MachineComponent implements
         IBuildcraft.TriggerProvider,
         IInteraction.ChunkUnload,
         IInteraction.Invalidation,
-        INetworkedEntity {
+        INetwork.TilePacketSync {
 
     private final ShaftPowerInputManager shaftPowerInputManager;
 
@@ -47,8 +48,33 @@ public class ComponentPowerReceptor extends MachineComponent implements
     }
 
     @Override
+    public void syncToNBT(NBTTagCompound nbt) {
+        BCLog.logger.info("receptor syncToNBT");
+        nbt.setBoolean("mismatch", shaftPowerInputManager.hasMismatchedInputs());
+        if (!shaftPowerInputManager.hasMismatchedInputs())
+        {
+            nbt.setInteger("torque", shaftPowerInputManager.getTorque());
+            nbt.setInteger("omega", shaftPowerInputManager.getOmega());
+        }
+    }
+
+    @Override
+    public void syncFromNBT(NBTTagCompound nbt) {
+        BCLog.logger.info("receptor syncFromNBT");
+        if (nbt.getBoolean("mismatch"))
+        {
+            // Has mismatched inputs
+            shaftPowerInputManager.setState(0, 0, true);
+        }
+        else
+        {
+            shaftPowerInputManager.setState(nbt.getInteger("torque"), nbt.getInteger("omega"), false);
+        }
+    }
+
+    @Override
     public void onUpdate() {
-        BCLog.logger.info("ComponentPowerReceptor.onUpdate()");
+        //BCLog.logger.info("ComponentPowerReceptor.onUpdate()");
         shaftPowerInputManager.update();
     }
 
@@ -72,7 +98,7 @@ public class ComponentPowerReceptor extends MachineComponent implements
 
     }
 
-    @Override
+    /*@Override
     public void writeToPacket(PacketPayload payload) {
         BCLog.logger.info("ComponentPowerReceptor writeToPacket");
         payload.addInteger(shaftPowerInputManager.getTorque());
@@ -84,7 +110,7 @@ public class ComponentPowerReceptor extends MachineComponent implements
     public void readFromPacket(PacketPayload payload) {
         BCLog.logger.info("ComponentPowerReceptor readFromPacket");
         shaftPowerInputManager.setState(payload.getInteger(), payload.getInteger(), payload.getInteger() == 1);
-    }
+    }*/
 
 
 	/* Rotary Power */
@@ -93,6 +119,7 @@ public class ComponentPowerReceptor extends MachineComponent implements
     public void onPowerChange(ShaftPowerInputManager shaftPowerInputManager) {
         //this.setNeedsNetworkUpdate();
         //sendNetworkUpdate();
+        getUtil().refreshBlock();
     }
 
     @Override
