@@ -208,11 +208,6 @@ public class TileEntityMachineBase extends TileEntity implements IInventoryMachi
 	}
 
 	@Override
-	public boolean hasMismatchedInputs() {
-		return getShaftPowerReceiver() != null && getShaftPowerReceiver().hasMismatchedInputs();
-	}
-
-	@Override
 	public boolean isReceiving() {
 		return getShaftPowerReceiver() != null && getShaftPowerReceiver().isReceiving();
 	}

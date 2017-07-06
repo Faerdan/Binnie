@@ -49,9 +49,8 @@ public class ComponentPowerReceptor extends MachineComponent implements
 
     @Override
     public void syncToNBT(NBTTagCompound nbt) {
-        BCLog.logger.info("receptor syncToNBT");
-        nbt.setBoolean("mismatch", shaftPowerInputManager.hasMismatchedInputs());
-        if (!shaftPowerInputManager.hasMismatchedInputs())
+        nbt.setBoolean("hasPower", shaftPowerInputManager.getPower() > 0);
+        if (shaftPowerInputManager.getPower() > 0)
         {
             nbt.setInteger("torque", shaftPowerInputManager.getTorque());
             nbt.setInteger("omega", shaftPowerInputManager.getOmega());
@@ -60,15 +59,13 @@ public class ComponentPowerReceptor extends MachineComponent implements
 
     @Override
     public void syncFromNBT(NBTTagCompound nbt) {
-        BCLog.logger.info("receptor syncFromNBT");
-        if (nbt.getBoolean("mismatch"))
+        if (nbt.getBoolean("hasPower"))
         {
-            // Has mismatched inputs
-            shaftPowerInputManager.setState(0, 0, true);
+            shaftPowerInputManager.setState(nbt.getInteger("torque"), nbt.getInteger("omega"));
         }
         else
         {
-            shaftPowerInputManager.setState(nbt.getInteger("torque"), nbt.getInteger("omega"), false);
+            shaftPowerInputManager.setState(0, 0);
         }
     }
 
@@ -145,11 +142,6 @@ public class ComponentPowerReceptor extends MachineComponent implements
     @Override
     public boolean canReadFrom(ForgeDirection forgeDirection) {
         return true;
-    }
-
-    @Override
-    public boolean hasMismatchedInputs() {
-        return shaftPowerInputManager != null && shaftPowerInputManager.hasMismatchedInputs();
     }
 
     @Override
