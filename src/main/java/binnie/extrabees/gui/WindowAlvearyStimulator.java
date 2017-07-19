@@ -34,7 +34,7 @@ public class WindowAlvearyStimulator extends Window {
 	@Override
 	public void initialiseClient() {
 		setTitle(I18N.localise("extrabees.machine.alveay.stimulator"));
-		new ControlEnergyBar(this, 75, 29, 60, 16, Position.LEFT);
+		//new ControlEnergyBar(this, 75, 29, 60, 16, Position.LEFT);
 		ControlSlot slot = new ControlSlot(this, 41.0f, 28.0f);
 		slot.assign(AlvearyStimulator.SLOT_CIRCUIT);
 		playerInventory = new ControlPlayerInventory(this);

@@ -52,7 +52,7 @@ public class WindowSplicer extends WindowMachine {
 		new ControlSlotArray(this, x + 12, 84, 2, 1)
 			.create(Splicer.SLOT_SERUM_EXPENDED);
 		new ControlIconDisplay(this, x + 12 + 36 + 4, 86.0f, GUIIcon.ArrowUpLeft.getIcon());
-		new ControlEnergyBar(this, 196, 64, 60, 16, Position.LEFT);
+		//new ControlEnergyBar(this, 196, 64, 60, 16, Position.LEFT);
 		new ControlErrorState(this, 218.0f, 86.0f);
 		CraftGUIUtil.verticalGrid(
 			(w() - 72.0f) / 2.0f,

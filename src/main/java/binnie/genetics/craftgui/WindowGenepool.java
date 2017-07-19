@@ -51,7 +51,7 @@ public class WindowGenepool extends WindowMachine {
 		new ControlMachineProgress(this, x, y + 19, WindowGenepool.ProgressBase, WindowGenepool.Progress, Position.LEFT);
 		x += 130;
 		new ControlLiquidTank(this, x, y).setTankID(Genepool.TANK_DNA);
-		new ControlEnergyBar(this, 21, 115, 16, 60, Position.BOTTOM);
+		//new ControlEnergyBar(this, 21, 115, 16, 60, Position.BOTTOM);
 		new ControlSlot(this, 121.0f, 82.0f).assign(Genepool.SLOT_ENZYME);
 		new ControlSlotCharge(this, 143, 82, 7).setColor(0xefe8af);
 		new ControlErrorState(this, 181.0f, 83.0f);

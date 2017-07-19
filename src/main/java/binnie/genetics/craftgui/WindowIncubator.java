@@ -54,7 +54,7 @@ public class WindowIncubator extends WindowMachine {
 		x += 26;
 		new ControlLiquidTank(this, x, y).setTankID(Incubator.TANK_OUTPUT);
 		x += 34;
-		new ControlEnergyBar(this, x, y + 3, 16, 54, Position.BOTTOM);
+		//new ControlEnergyBar(this, x, y + 3, 16, 54, Position.BOTTOM);
 		new ControlErrorState(this, 91.0f, 82.0f);
 		new ControlPlayerInventory(this);
 	}

@@ -69,7 +69,7 @@ public class WindowSequencer extends WindowMachine {
 		x += 20;
 		new ControlSlotCharge(this, x, y, 0).setColor(16750848);
 		x += 32;
-		new ControlEnergyBar(this, x, y, 60, 16, Position.LEFT);
+		//new ControlEnergyBar(this, x, y, 60, 16, Position.LEFT);
 		x += 92;
 		new ControlErrorState(this, x, y + 1);
 		new ControlPlayerInventory(this);

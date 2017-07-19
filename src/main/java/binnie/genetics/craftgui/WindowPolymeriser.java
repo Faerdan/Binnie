@@ -47,7 +47,7 @@ public class WindowPolymeriser extends WindowMachine {
 		new ControlSlot(this, x, y).assign(Polymeriser.SLOT_SERUM);
 		new ControlLiquidTank(this, x, y + 18 + 16, true).setTankID(Polymeriser.TANK_BACTERIA);
 		new ControlLiquidTank(this, x, y + 18 + 16 + 18 + 8, true).setTankID(Polymeriser.TANK_DNA);
-		new ControlEnergyBar(this, x + 120, 96, 64, 16, Position.LEFT);
+		//new ControlEnergyBar(this, x + 120, 96, 64, 16, Position.LEFT);
 		x += 40;
 		new ControlSlot(this, x + 30, y + 18 + 8).assign(Polymeriser.SLOT_GOLD);
 		new ControlSlotCharge(this, x + 30 + 20, y + 18 + 8, 1).setColor(0xffd800);

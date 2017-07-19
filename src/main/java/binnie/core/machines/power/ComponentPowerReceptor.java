@@ -32,7 +32,6 @@ public class ComponentPowerReceptor extends MachineComponent implements
 
     public ComponentPowerReceptor(IMachine machine, String nameKey, int minTorque, int minOmega, int minPower) {
         super(machine);
-
         shaftPowerInputManager = new ShaftPowerInputManager(this, nameKey, minTorque, minOmega, minPower);
     }
 
