@@ -70,7 +70,7 @@ public class ExtraTreeMutation implements ITreeMutation {
 		new ExtraTreeMutation(getVanilla("Plum"), ExtraTreeSpecies.Peach, ExtraTreeSpecies.Nectarine, 10);
 		new ExtraTreeMutation(getVanilla("Plum"), ExtraTreeSpecies.Peach, ExtraTreeSpecies.Apricot, 10);
 		new ExtraTreeMutation(getVanilla("Plum"), getVanilla("Walnut"), ExtraTreeSpecies.Almond, 10);
-		new ExtraTreeMutation(getVanilla("Lime"), getVanilla("Cherry"), ExtraTreeSpecies.WildCherry, 10);
+		new ExtraTreeMutation(getVanilla("Lime"), getVanilla("Cherry"), ExtraTreeSpecies.WildCherry, 33);
 		new ExtraTreeMutation(getVanilla("Willow"), getVanilla("Cherry"), ExtraTreeSpecies.SourCherry, 10);
 		new ExtraTreeMutation(getVanilla("Ebony"), getVanilla("Cherry"), ExtraTreeSpecies.BlackCherry, 10);
 		new ExtraTreeMutation(getVanilla("Balsa"), getVanilla("Jungle"), ExtraTreeSpecies.Banana, 10);

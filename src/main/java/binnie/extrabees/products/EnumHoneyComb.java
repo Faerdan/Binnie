@@ -32,6 +32,7 @@ public enum EnumHoneyComb implements IItemEnum {
 	COPPER(new Color(0x363534), new Color(0xd16308)),
 	TIN(new Color(0x363534), new Color(0xbdb1bd)),
 	SILVER(new Color(0x363534), new Color(0xdbdbdb)),
+	ALUMINUM(new Color(0x363534), new Color(0xcfcfcf)),
 //	BRONZE,
 	URANIUM(new Color(0x1eff00), new Color(0x41ab33)),
 	CLAY(new Color(0x6b563a), new Color(0xb0c0d6)),

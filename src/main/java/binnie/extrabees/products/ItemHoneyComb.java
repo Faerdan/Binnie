@@ -113,6 +113,9 @@ public class ItemHoneyComb extends ItemProduct {
 		EnumHoneyComb.SILVER.copyProducts(EnumHoneyComb.STONE);
 		EnumHoneyComb.SILVER.tryAddProduct(ExtraBeeItems.SilverDust, 1.00f);
 
+		EnumHoneyComb.ALUMINUM.copyProducts(EnumHoneyComb.STONE);
+		EnumHoneyComb.ALUMINUM.tryAddProduct(ExtraBeeItems.AluminumDust, 1.00f);
+
 		EnumHoneyComb.URANIUM.copyProducts(EnumHoneyComb.STONE);
 		if (!OreDictionary.getOres("crushedUranium").isEmpty()) {
 			EnumHoneyComb.URANIUM.tryAddProduct(OreDictionary.getOres("crushedUranium").get(0), 0.50f);

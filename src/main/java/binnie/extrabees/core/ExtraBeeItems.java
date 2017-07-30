@@ -49,7 +49,8 @@ public enum ExtraBeeItems implements IItemMisc {
 	ClayDust("clayDust"),
 	YelloriumDust("yelloriumDust"),
 	BlutoniumDust("blutoniumDust"),
-	CyaniteDust("cyaniteDust");
+	CyaniteDust("cyaniteDust"),
+	AluminumDust("aluminumDust");
 
 	static {
 		ExtraBeeItems.TinDust.setMetal("Tin");
@@ -59,6 +60,7 @@ public enum ExtraBeeItems implements IItemMisc {
 		ExtraBeeItems.NickelDust.setMetal("Nickel");
 		ExtraBeeItems.LeadDust.setMetal("Lead");
 		ExtraBeeItems.SilverDust.setMetal("Silver");
+		ExtraBeeItems.AluminumDust.setMetal("Aluminum");
 		ExtraBeeItems.GoldDust.setMetal("Gold");
 		ExtraBeeItems.PlatinumDust.setMetal("Platinum");
 		ExtraBeeItems.TungstenDust.setMetal("Tungsten");

@@ -366,13 +366,28 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
             beeSpecies
                     .addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
                     .addSpecialty(EnumHoneyComb.NICKEL.get(1), 0.05f)
-                    .setRequiredBiomeNames(new String[]{".*asteroids.*"});
+                    .setRequiredBiomeNames(new String[]{".*Desert.*", ".*Savanna.*"});
         }
 
         @Override
         protected void registerMutations() {
             registerMutation(BeeDefinition.FOREST, MINERAL, 5);
             registerMutation(BeeDefinition.MARSHY, MINERAL, 5);
+        }
+    },
+    ALUMINUM(ExtraBeeBranchDefinition.METALLIC2, "ductilian", false, new Color(0xcfcfcf), new Color(0x999999)) {
+        @Override
+        protected void setSpeciesProperties(IAlleleBeeSpeciesCustom beeSpecies) {
+            beeSpecies
+                    .addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
+                    .addSpecialty(EnumHoneyComb.ALUMINUM.get(1), 0.02f)
+                    .setRequiredBiomeNames(new String[]{".*Desert.*", ".*Savanna.*"});
+        }
+
+        @Override
+        protected void registerMutations() {
+            registerMutation(BeeDefinition.FOREST, NICKEL, 5);
+            registerMutation(BeeDefinition.MARSHY, NICKEL, 5);
         }
     },
 
@@ -405,7 +420,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
             beeSpecies
                     .addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
                     .addSpecialty(EnumHoneyComb.SILVER.get(1), 0.02f)
-                    .setRequiredBiomeNames(new String[]{".*mars.*"});
+                    .setRequiredBiomeNames(new String[]{".*Desert.*", ".*Savanna.*"});
         }
 
         @Override
@@ -423,7 +438,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
             beeSpecies
                     .addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
                     .addSpecialty(EnumHoneyComb.PLATINUM.get(1), 0.01f)
-                    .setRequiredBiomeNames(new String[]{"mars", "marsFlat"});
+                    .setRequiredBiomeNames(new String[]{".*mars.*"});
         }
 
         @Override
