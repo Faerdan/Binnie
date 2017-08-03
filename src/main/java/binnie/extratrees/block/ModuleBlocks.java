@@ -67,6 +67,8 @@ public class ModuleBlocks implements IInitializable {
 			OreDictionary.registerOre("plankWood", plank2.getStack());
 		}
 
+		OreDictionary.registerOre("slabWood", new ItemStack(ExtraTrees.blockSlab, 1, OreDictionary.WILDCARD_VALUE));
+
 		FMLInterModComms.sendMessage("Forestry", "add-fence-block", "ExtraTrees:fence");
 		FMLInterModComms.sendMessage("Forestry", "add-fence-block", "ExtraTrees:gate");
 		// FMLInterModComms.sendMessage("Forestry", "add-alveary-slab", "ExtraTrees:slab");

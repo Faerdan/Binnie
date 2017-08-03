@@ -108,14 +108,15 @@ public enum ExtraBeeItems implements IItemMisc {
 				if (!OreDictionary.getOres("ingot" + item.metalString).isEmpty()) {
 					ingot = OreDictionary.getOres("ingot" + item.metalString).get(0).copy();
 				}
-				if (!OreDictionary.getOres("dust" + item.metalString).isEmpty()) {
+				/*if (!OreDictionary.getOres("dust" + item.metalString).isEmpty()) {
 					dust = OreDictionary.getOres("dust" + item.metalString).get(0).copy();
-				}
+				}*/
 
 				ItemStack input = item.get(1);
-				if (dust != null) {
+				/*if (dust != null) {
 					GameRegistry.addShapelessRecipe(dust, input, input, input, input);
-				} else if (ingot != null) {
+				} else */
+				if (ingot != null) {
 					GameRegistry.addShapelessRecipe(ingot, input, input, input, input, input, input, input, input, input);
 				} else if (item == ExtraBeeItems.CoalDust) {
 					GameRegistry.addShapelessRecipe(new ItemStack(Items.coal), input, input, input, input);
