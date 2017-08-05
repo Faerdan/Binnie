@@ -352,7 +352,7 @@ public enum ExtraBeeDefinition implements IBeeDefinition {
             beeSpecies
                     .addProduct(EnumHoneyComb.STONE.get(1), 0.20f)
                     .addSpecialty(EnumHoneyComb.TUNGSTEN.get(1), 0.01f)
-                    .setRequiredBiomeNames(new String[]{".*asteroids.*"});
+                    .setRequiredBiomeNames(new String[]{".*Desert.*", ".*Savanna.*"});
         }
 
         @Override
